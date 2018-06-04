@@ -14,7 +14,7 @@ intro.jaxは日本語的には先頭行だけの修正
   diff.txt  
   mlang.txt  
   netbeans.txt (VIM)  
-  os_beos.txt (VIM)  
+  os_beos.txt (VIM) 英語版の修正が本当に正しいかどうか分からない  
   pi_getscript (VIMその他)  
   print.txt (VIM)  
   quotes.txt  

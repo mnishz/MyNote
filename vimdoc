@@ -1,10 +1,10 @@
-index.jaxはpush済み
-digraph.jax(done), farsi.jax(done), pi_zip.jax(done)は今試してみたけれど特に問題ないように見える
-intro.jax(done)は日本語的には先頭行だけの修正
+index.jaxはPR済み
+digraph.jax(PR), farsi.jax(PR), pi_zip.jax(PR)は今試してみたけれど特に問題ないように見える
+intro.jax(PR)は日本語的には先頭行だけの修正
 
 以下楽そうなの
-arabic.txt (VIM -> Vim)(done)
-fold.txt (VIMその他)(done)
+arabic.txt (VIM -> Vim)(PR)
+fold.txt (VIMその他)(PR)
 ft_ada.txt (VIM)(done)
 hangulin.txt (VIM)(done)
 help.txt

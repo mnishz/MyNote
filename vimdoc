@@ -8,11 +8,11 @@ fold.txt (VIMその他)(PR)
 ft_ada.txt (VIM)(PR)
 hangulin.txt (VIM)(PR)
 help.txt
-if_ole.txt (VIM)(done)
-if_perl.txt (VIM)(done)
+if_ole.txt (VIM)(PR)
+if_perl.txt (VIM)(PR)
 diff.txt
 mlang.txt
-netbeans.txt (VIM)(done)
+netbeans.txt (VIM)(done) -> gvimの件があるのでsuspend
 os_beos.txt (VIM) 英語版の修正が本当に正しいかどうか分からない
 pi_getscript (VIMその他)(done)
 print.txt (VIM)(done)

@@ -39,8 +39,9 @@ git push origin master
 git pull origin master
 
 git remote add upstream URL
-git fetch upstream
-git merge upstream/master
+git checkout master
+git pull upstream master
+git push origin master
 
 git reflog
 git log -g

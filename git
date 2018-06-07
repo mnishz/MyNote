@@ -1,0 +1,47 @@
+HEADとかの類はSHAでも置き換え可能
+
+git clone URL
+
+git remote -v
+
+git checkout BRANCH_NAME
+	これはHEADをBRANCH_NAMEの先頭に移動させる
+git checkout -b BRANCH_NAME
+git checkout SHA
+	これはHEADをSHAに移動させる(そしてdetached headとなる、"cat .git/HEAD"参照)
+git branch -a
+
+git fetch origin
+
+git log
+git log --oneline --graph --decorate
+git log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --date=short
+git log origin/master (要fecth)
+git log --follow -- FILE_NAME
+git log --numstat
+
+https://qiita.com/shibukk/items/8c9362a5bd399b9c56be
+	git diff
+	git diff --cached
+	git diff --word-diff
+	git diff HEAD^..HEAD (比較元..比較先)
+	git diff HEAD..origin/master (要fecth)
+
+git checkout . (変更全削除)
+https://qiita.com/shuntaro_tamura/items/db1aef9cf9d78db50ffe
+resetは、今いるbranchとHEADをSHAの位置に持っていく
+	git reset --soft HEAD^ -> HEADの1個前へ
+	git reset --mixed HEAD^^ -> HEADの2個前へ
+	git reset --hard HEAD -> HEADへ全部リセット("git checkout ."と同じ効果)
+
+git commit -am "comment"
+git push origin master
+git pull origin master
+
+git remote add upstream URL
+git fetch upstream
+git merge upstream/master
+
+git reflog
+git log -g
+cat .git/HEAD

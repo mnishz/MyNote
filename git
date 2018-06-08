@@ -22,7 +22,8 @@ git log --numstat
 
 https://qiita.com/shibukk/items/8c9362a5bd399b9c56be
 	git diff
-	git diff --cached
+	git diff commit
+	git diff --cached (indexと比較)
 	git diff --word-diff
 	git diff HEAD^..HEAD (比較元..比較先)
 	git diff HEAD..origin/master (要fecth)

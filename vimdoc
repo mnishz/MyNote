@@ -6,6 +6,10 @@ git diff
 git commit -am "Update XXXX from Vim 8.0 to 8.1"
 git push origin XXXX_for_Vim_8.1
 
+For issue #207
+XXXX.txt および XXXX.jax を Vim 8.1 用に更新しました。
+ご確認お願いいたします。
+
 index.jaxはPR済み
 digraph.jax(PR), farsi.jax(PR), pi_zip.jax(PR)は今試してみたけれど特に問題ないように見える
 intro.jax(PR)は日本語的には先頭行だけの修正
@@ -23,7 +27,7 @@ mlang.txt
 netbeans.txt (VIM)(done) -> gvimの件があるのでsuspend
 os_beos.txt (VIM) 英語版の修正が本当に正しいかどうか分からない
 pi_getscript (VIMその他)(PR)
-print.txt (VIM)(done)
+print.txt (VIM)(PR)
 quotes.txt
 tagsrch.txt(done)
 usr_07.txt

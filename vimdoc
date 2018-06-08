@@ -11,8 +11,6 @@ XXXX.txt および XXXX.jax を Vim 8.1 用に更新しました。
 ご確認お願いいたします。
 
 簡単そうなの残り
-help.txt
-diff.txt
 mlang.txt
 quotes.txt
 usr_07.txt
@@ -34,3 +32,5 @@ tagsrch.txt(PR)
 usr_09.txt (VIM)(PR)
 usr_11.txt(PR)
 usr_27.txt(PR)
+help.txt
+diff.txt

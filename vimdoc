@@ -10,11 +10,7 @@ For issue #207
 XXXX.txt および XXXX.jax を Vim 8.1 用に更新しました。
 ご確認お願いいたします。
 
-簡単そうなの残り
-mlang.txt
-quotes.txt
-usr_07.txt
-
+以下PRまで出した。
 index.jaxはPR済み
 digraph.jax(PR), farsi.jax(PR), pi_zip.jax(PR)は今試してみたけれど特に問題ないように見える
 intro.jax(PR)は日本語的には先頭行だけの修正
@@ -34,3 +30,6 @@ usr_11.txt(PR)
 usr_27.txt(PR)
 help.txt
 diff.txt
+mlang.txt
+quotes.txt
+usr_07.txt

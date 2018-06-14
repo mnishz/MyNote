@@ -7,6 +7,7 @@ git remote -v
 git checkout BRANCH_NAME
 	これはHEADをBRANCH_NAMEの先頭に移動させる
 git checkout -b BRANCH_NAME
+git checkout SHA -b BRANCH_NAME
 git checkout SHA
 	これはHEADをSHAに移動させる(そしてdetached headとなる、"cat .git/HEAD"参照)
 git branch -a

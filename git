@@ -12,6 +12,7 @@ git checkout SHA
 git branch -a
 
 git fetch
+git fetch --prune
 
 git log
 git log --oneline --graph --decorate

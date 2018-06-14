@@ -11,8 +11,8 @@ git checkout SHA
 	これはHEADをSHAに移動させる(そしてdetached headとなる、"cat .git/HEAD"参照)
 git branch -a
 
-git fetch
-git fetch --prune
+git fetch origin
+git fetch origin --prune
 
 git log
 git log --oneline --graph --decorate

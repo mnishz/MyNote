@@ -12,6 +12,8 @@ git checkout SHA
 	これはHEADをSHAに移動させる(そしてdetached headとなる、"cat .git/HEAD"参照)
 git branch -a
 git branch --delete BRANCH_NAME
+git branch --merged | grep -v master | xargs -I TARGET_BRANCH git branch --delete TARGET_BRANCH
+        mergeされたやつを自動で削除、TARGET_BRANCHはそのまま入力すること(変数みたいなもの)
 
 git fetch origin
 git fetch origin --prune

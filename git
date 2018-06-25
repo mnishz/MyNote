@@ -19,7 +19,7 @@ git fetch origin
 git fetch origin --prune
 	リモート上で消されたものについて、ローカル上のリモートブランチを削除
 git branch --merged | grep -v master | xargs -I TARGET_BRANCH git branch --delete TARGET_BRANCH
-	mergeされたやつを自動で削除、TARGET_BRANCHはそのまま入力すること(変数みたいなもの)
+	mergeされたやつを自動で削除、TARGET_BRANCHはそのまま入力すること(変数みたいなもの)、masterをpullしてからがいいかも
 git branch -D "ブランチ名"
 	とりあえずローカルブランチを削除
 git push --delete origin "ブランチ名"

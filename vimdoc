@@ -12,6 +12,6 @@ XXXX.txt および XXXX.jax を Vim 8.1 用に更新しました。
 
 Vimに関しての困りごと
 encodingを切り替えて使うときの.vimrcの取り扱い
-nkfだとCP51932
+fileencodingがnkfだとCP51932
     sakuraだとEUCでerrorなしで開け、変更してもdiffは変更箇所だけ
     Vimだとeuc-jisx0213でerrorなしで開けるが、変更するとバイナリレベルでいろいろ変わっている

@@ -12,11 +12,18 @@ git checkout SHA
 	これはHEADをSHAに移動させる(そしてdetached headとなる、"cat .git/HEAD"参照)
 git branch -a
 git branch --delete BRANCH_NAME
-git branch --merged | grep -v master | xargs -I TARGET_BRANCH git branch --delete TARGET_BRANCH
-        mergeされたやつを自動で削除、TARGET_BRANCHはそのまま入力すること(変数みたいなもの)
 
 git fetch origin
+
+ブランチの削除
 git fetch origin --prune
+	リモート上で消されたものについて、ローカル上のリモートブランチを削除
+git branch --merged | grep -v master | xargs -I TARGET_BRANCH git branch --delete TARGET_BRANCH
+	mergeされたやつを自動で削除、TARGET_BRANCHはそのまま入力すること(変数みたいなもの)
+git branch -D "ブランチ名"
+	とりあえずローカルブランチを削除
+git push --delete origin "ブランチ名"
+	リモート上のブランチを削除
 
 git log
 git log --oneline --graph --decorate

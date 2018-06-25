@@ -10,26 +10,8 @@ For issue #207
 XXXX.txt および XXXX.jax を Vim 8.1 用に更新しました。
 ご確認お願いいたします。
 
-以下PRまで出した。
-index.jaxはPR済み
-digraph.jax(PR), farsi.jax(PR), pi_zip.jax(PR)は今試してみたけれど特に問題ないように見える
-intro.jax(PR)は日本語的には先頭行だけの修正
-arabic.txt (VIM -> Vim)(PR)
-fold.txt (VIMその他)(PR)
-ft_ada.txt (VIM)(PR)
-hangulin.txt (VIM)(PR)
-if_ole.txt (VIM)(PR)
-if_perl.txt (VIM)(PR)
-netbeans.txt (VIM)(PR)
-os_beos.txt (VIM)(PR)
-pi_getscript (VIMその他)(PR)
-print.txt (VIM)(PR)
-tagsrch.txt(PR)
-usr_09.txt (VIM)(PR)
-usr_11.txt(PR)
-usr_27.txt(PR)
-help.txt
-diff.txt
-mlang.txt
-quotes.txt
-usr_07.txt
+Vimに関しての困りごと
+encodingを切り替えて使うときの.vimrcの取り扱い
+nkfだとCP51932
+    sakuraだとEUCでerrorなしで開け、変更してもdiffは変更箇所だけ
+    Vimだとeuc-jisx0213でerrorなしで開けるが、変更するとバイナリレベルでいろいろ変わっている

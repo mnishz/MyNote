@@ -31,6 +31,9 @@ git log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Cr
 git log origin/master (要fecth)
 git log --follow -- FILE_NAME
 git log --numstat
+	ファイルの変更量も表示
+git log --name-status
+	ファイルの変更も表示
 
 https://qiita.com/shibukk/items/8c9362a5bd399b9c56be
 	git diff

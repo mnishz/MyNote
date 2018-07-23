@@ -15,3 +15,13 @@ encodingを切り替えて使うときの.vimrcの取り扱い
 fileencodingがnkfだとCP51932
     sakuraだとEUCでerrorなしで開け、変更してもdiffは変更箇所だけ
     Vimだとeuc-jisx0213でerrorなしで開けるが、変更するとバイナリレベルでいろいろ変わっている
+
+バグ？
+1. 単独で起動
+2. 全画面にする？
+3. 何かしらファイルを開く
+    :e CHANGES.md ($VIMの直下にあるファイル、起動直後に開くことができる。)
+4. "<space>v" を押して .vimrc を開く
+5. ":h expression" でヘルプを開く
+6. "<c-w>j" で .vimrc のウィンドウに移動する
+7. "j" や "k" で移動すると、スクロールしない

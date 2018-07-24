@@ -6,6 +6,7 @@ git remote -v
 
 git checkout BRANCH_NAME
 	これはHEADをBRANCH_NAMEの先頭に移動させる
+	ローカルにないリモートブランチも、ブランチ名だけでcheckoutできる		
 git checkout -b BRANCH_NAME
 git checkout SHA -b BRANCH_NAME
 git checkout SHA

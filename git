@@ -38,11 +38,12 @@ git log --name-status
 
 https://qiita.com/shibukk/items/8c9362a5bd399b9c56be
 	git diff
+	git show commit
 	git diff commit
-	git diff --cached (indexと比較)
 	git diff --word-diff
 	git diff HEAD^..HEAD (比較元..比較先)
 	git diff HEAD..origin/master (要fecth)
+	git diff --cached (indexと比較)
 
 git checkout . (変更全削除)
 https://qiita.com/shuntaro_tamura/items/db1aef9cf9d78db50ffe

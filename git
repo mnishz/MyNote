@@ -35,6 +35,7 @@ git log --numstat
 	ファイルの変更量も表示
 git log --name-status
 	ファイルの変更も表示
+git log master..branch
 
 https://qiita.com/shibukk/items/8c9362a5bd399b9c56be
 	git diff

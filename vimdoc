@@ -16,6 +16,15 @@ fileencodingがnkfだとCP51932
     sakuraだとEUCでerrorなしで開け、変更してもdiffは変更箇所だけ
     Vimだとeuc-jisx0213でerrorなしで開けるが、変更するとバイナリレベルでいろいろ変わっている
 
+～と＃が含まれているファイルがある。
+nkf32 -g fileとやるとEUC-JPとなる。
+Windows gVimで開くと普通に開けて、fileencoding=euc-jpとなっている。
+ただ、そのままgVimで保存するとnkf32の結果がEUCJP-MSになる。
+diffすると変わっているように見える。でもgVimだとちゃんと見えるし、fileencodingもeuc-jp。
+!nkf32 --ic=eucjp-ms --oc=euc-jp --overwrite %
+すれば、EUC-JPに戻る。gVimでのeuc-jpというのは、eucjp-msのことっぽい。
+どうにかeucjp-msでなく、euc-jpのまま保存できないか。
+
 バグ？
 1. 単独で起動
 2. 全画面にする？

@@ -40,3 +40,6 @@ eval.txtに、コマンドじゃないのに ` ` で括っている箇所が結�
 英単語
     wording
     tweak
+
+c-a/c-x で英単語をサポートするとか
+one -> two -> three みたいに

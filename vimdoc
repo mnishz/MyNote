@@ -52,3 +52,5 @@ one -> two -> three みたいに
     2. abc
         def
 これのソートが直感どおりになるようにしたい
+
+tyruさんのcfiをstatuslineに入れていると、関数を書いている途中で止まる。

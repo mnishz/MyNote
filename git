@@ -67,3 +67,8 @@ git push origin master
 git reflog
 git log -g
 cat .git/HEAD
+
+Windowsでの文字化けは、SETX LANG ja_JP.UTF-8とpagerの設定で今のところなんか直っている。
+    [core]
+        pager = LESSCHARSET=utf-8 nkf32 -w | less
+

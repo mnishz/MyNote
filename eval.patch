@@ -1,0 +1,678 @@
+diff --git a/doc/eval.jax b/doc/eval.jax
+index 6144b43..2870764 100644
+--- a/doc/eval.jax
++++ b/doc/eval.jax
+@@ -4626,6 +4626,10 @@ getloclist({nr} [, {what}])				*getloclist()*
+ 		オプションの{what}辞書引数が指定されている場合、{what}にリスト
+ 		されている項目を辞書として返す。{what}のサポートされている項目
+ 		については、|getqflist()|を参照。
++		{what} が 'filewinid' を含む場合、ロケーションリスト中のファイ
++		ルを表示するのに使われているウィンドウの ID を返す。このフィー
++		ルドはロケーションリストウィンドウから呼び出されたときのみ適用
++		される。
+ 
+ getmatches()						*getmatches()*
+ 		|matchadd()| と |:match| により定義された全てのマッチの |List|
+@@ -7768,7 +7772,7 @@ substitute({expr}, {pat}, {sub}, {flags})
+ 		以下の |submatch()| が返す様なリストである。例: >
+ 		   :echo substitute(s, '%\(\x\x\)', {m -> '0x' . m[1]}, 'g')
+ 
+-swapinfo({fname})					swapinfo()
++swapinfo({fname})					*swapinfo()*
+ 		結果は、スワップファイル {fname} に関する情報を含む辞書。利用
+ 		可能なフィールドは以下のとおり:
+ 			version VIM バージョン
+@@ -7778,7 +7782,6 @@ swapinfo({fname})					swapinfo()
+ 			pid	スワップファイルを作成した VIM プロセスの PID
+ 			mtime	秒単位での最終修正時間
+ 			inode	オプショナル: ファイルの INODE 番号
+-			inode	Optional: INODE number of the file
+ 			dirty	ファイルが修正されていれば 1、そうでなければ 0
+ 		Note: "user" および "host" は最大で 39 バイトに切り詰められる。
+ 		失敗した場合、以下の理由と共に "error" 項目が追加される:
+@@ -8436,6 +8439,11 @@ test_autochdir()					*test_autochdir()*
+ 		Vimの起動が完了する前に 'autochdir' の効果を有効にするためのフ
+ 		ラグをセットする。
+ 
++test_feedinput({string})				*test_feedinput()*
++		{string} の文字を、あたかもユーザーがタイプしたかのように処理
++		する。これは低レベル入力バッファを使用する。この関数は |+unix|
++		もしくは GUI で動作しているときに機能する。
++
+ test_garbagecollect_now()			 *test_garbagecollect_now()*
+ 		garbagecollect() とほぼ同じであるが、この関数はガーベッジコレ
+ 		クトを直ちに実行する。この関数を実行する場合は、構造体が内部に
+@@ -8481,8 +8489,21 @@ test_override({name}, {val})				*test_override()*
+ 		name	     {val} が非 0 のときの効果 ~
+ 		redraw       redrawing() 関数を無効化する
+ 		char_avail   char_avail() 関数を無効化する
++		starting     "starting" 変数を初期化する、以下を参照
++		nfa_fail     古い正規表現エンジンに戻すために、NFA regexp エン
++			     ジンを失敗させる
+ 		ALL	     すべての置き換えをクリアする ({val} は使われない)
+ 
++		"starting" は、起動が完了したようにテストが振る舞うべきときに
++		使われる。テストはスクリプトを読み込むことによって開始されるの
++		で、"starting" 変数は非ゼロである。これは通常はいいこと (テス
++		トが早く実行される) だが、テストが適切に動作しないという点では
++		動作を変えてしまっている。
++		次のようにしたとき: >
++			call test_override('starting', 1)
++<		"starting" の値が保存される。次のようにして復元される: >
++			call test_override('starting', 0)
++
+ test_settime({expr})					*test_settime()*
+ 		Vim が内部的に用いる時間を設定する。現在は history のタイムス
+ 		タンプ、viminfo のタイムスタンプ、undo に使用されている。
+@@ -8540,6 +8561,10 @@ timer_start({time}, {callback} [, {options}])
+ 		   "repeat"	コールバックを呼び出す繰り返し回数。-1 は無限
+ 				を意味する。指定されない場合はコールバックは一
+ 				度だけ呼び出される。
++				タイマーが 3 回連続してエラーを発生させた場合、
++				繰り返しはキャンセルされる。これは、すべてのエ
++				ラーメッセージによって Vim が使用不可になるの
++				を防ぐ。
+ 
+ 		例: >
+ 			func MyHandler(timer)
+@@ -8587,6 +8612,22 @@ tr({src}, {fromstr}, {tostr})				*tr()*
+ 			echo tr("<blob>", "<>", "{}")
+ <		戻り値は "{blob}" となる。
+ 
++trim({text} [, {mask}])						*trim()*
++		{text} の先頭と末尾から、{mask} 内のすべての文字を取り除いた文
++		字列を返す。
++		{mask} が与えられない場合、{mask} はタブ、空白、NL および CR
++		を含む 0x20 までのすべての文字と、ノーブレークスペース文字の
++		0xa0 となる。
++		このコードはマルチバイト文字を正しく扱える。
++
++		例: >
++			echo trim("   some text ")
++<		"some text" を返す >
++			echo trim("  \r\t\t\r RESERVE \t\n\x0B\xA0") . "_TAIL"
++<		"RESERVE_TAIL" を返す >
++			echo trim("rm<Xrm<>X>rrm", "rm<>")
++<		"Xrm<>X" を返す (中央部分の文字は取り除かれない)
++
+ trunc({expr})							*trunc()*
+ 		{expr} をゼロ方向に切りつめた整数を |Float| で返す。
+ 		{expr} は |Float| または |Number| に評価されなければならない。
+@@ -8598,7 +8639,7 @@ trunc({expr})							*trunc()*
+ 			echo trunc(4.0)
+ <			4.0
+ 		{|+float| 機能つきでコンパイルされたときのみ有効}
+-		
++
+ 							*type()*
+ type({expr})	{expr}の型を示す数値を返す。
+ 		マジックナンバーを使わずに、v:t_ 変数を使う方が良い。それぞれ
+@@ -8765,7 +8806,8 @@ win_getid([{win} [, {tab}]])				*win_getid()*
+ 		この {win} はウィンドウ番号である。トップウィンドウは番号 1 を
+ 		持つ。
+ 		{tab} が未指定の場合現在のタブが使用され、{tab} が番号で指定さ
+-		れた場合はそのタブとなる。最初のタブ番号は 1 である。
++		れた場合はそのタブとなる。最初のタブ番号は 1 である。現在のウィ
++		ンドウを対象とする場合は `win_getid(winnr())` のようにする。
+ 		ウィンドウが見付からない場合には 0 を返す。
+ 
+ win_gotoid({expr})					*win_gotoid()*
+@@ -8783,6 +8825,14 @@ win_id2win({expr})					*win_id2win()*
+ 		現在のタブページ内でそのウィンドウが見付からなかった場合は 0
+ 		を返す。
+ 
++win_screenpos({nr})					*win_screenpos()*
++		ウィンドウ {nr} のスクリーン位置を 2 つの数値のリストで返す:
++		[row, col]。タブラインがない限り先頭のウィンドウは常に [1, 1]
++		の位置となり、タブラインがある場合は [2, 1] となる。
++		{nr} にはウィンドウ番号もしくは |window-ID| を指定する。
++		現在のタブページに対象のウィンドウが見つからない場合、[0, 0]を
++		返す。
++
+ 							*winbufnr()*
+ winbufnr({nr})	結果は数値で、{nr}番目のウィンドウに関連付けられているバッファ
+ 		の番号。{nr} にはウィンドウ番号または|window-ID|が使える。
+@@ -8803,6 +8853,7 @@ winheight({nr})						*winheight()*
+ 		{nr}が0ならば、現在のウィンドウの高さが返る。{nr}というウィン
+ 		ドウが存在しない場合、-1が返る。存在しているウィンドウは、絶対
+ 		に0かそれ以上の高さを持っている。
++		ウィンドウツールバーはすべて除く。
+ 		例: >
+   :echo "The current window has " . winheight(0) . " lines."
+ <
+@@ -8912,9 +8963,9 @@ winwidth({nr})						*winwidth()*
+ 		例: >
+   :echo "The current window has " . winwidth(0) . " columns."
+   :if winwidth(0) <= 50
+-  :  exe "normal 50\<C-W>|"
++  :  50 wincmd |
+   :endif
+-<               端末または画面サイズを取得するには、'columns' オプション参照。
++<		端末または画面サイズを取得するには、'columns' オプション参照。
+ 
+ 
+ wordcount()						*wordcount()*
+@@ -8948,8 +8999,17 @@ writefile({list}, {fname} [, {flags}])
+ 		される。 >
+ 			:call writefile(["foo"], "event.log", "a")
+ 			:call writefile(["bar"], "event.log", "a")
+->
+-<		NL文字はNUL文字に置換される。
++<
++		{flags} が "s" を含むとき、ファイルを書き込んだあと fsync() が
++		呼び出される。これは、可能であればファイルをディスクに書き出
++		す。より時間がかかるが、システムがクラッシュした場合にファイル
++		が失われるのを防ぐ。
++		{flags} が "S" も "s" も含まないとき、オプション 'fsync' が設
++		定されていれば fsync() が呼び出される。
++		{flags} が "S" を含むとき、'fsync' が設定されていても fsync()
++		は呼び出されない。
++
++		NL文字はNUL文字に置換される。
+ 		CR文字を加えるには、{list}をwritefile()に渡す前に行わねばなら
+ 		ない。
+ 		既存のファイルは上書きされる(上書き可能ならば)。
+@@ -8972,24 +9032,20 @@ xor({expr}, {expr})					*xor()*
+ 							*feature-list*
+ 機能は大別して 4 つの系統に分けられる:
+ 1.  コンパイル時に|+feature-list|とした時にだけサポートされる機能。例: >
+-		:if has("cindent")
++	:if has("cindent")
+ 2.  ある状態の時にだけサポートされる機能。例: >
+-		:if has("gui_running")
++	:if has("gui_running")
+ <							*has-patch*
+-3.  適用済みパッチ。"patch123" はパッチ 123 が適用されていることを示す。Note:
+-    この形式は Vim のバージョンをチェックしない。あなたは |v:version| を解析す
+-    る必要がある。
+-    例 (6.2.148 以降かどうかを確認する): >
+-	:if v:version > 602 || v:version == 602 && has("patch148")
+-<    Note: 148 が適用されていても、147 が抜けていることもありうるので注意。
+-
+-4.  特定のバージョン以降であるか、またはバージョンが同じで特定のパッチが含まれ
+-    ているかどうか。"patch-7.4.237" は、Vim のバージョンが 7.5 以降か、または
+-    7.4 でパッチ 237 を含んでいるかどうかを示す。
+-    Note: これはパッチ 7.4.237 以降でのみ機能する。それ以前では上述のように
+-    v:version を確認する必要がある。例: >
++3.  あるバージョンより後か、あるバージョンで特定のパッチが適用されているか。機
++    能"patch-7.4.248" は、Vim のバージョンが 7.5 以降であるか、もしくはバージョ
++    ンが 7.4 でパッチ 248 が適用されているかを意味する。例: >
+ 	:if has("patch-7.4.248")
+-<    Note: 148 が適用されていても、147 が抜けていることもありうるので注意。
++<    Note: 249 が適用されていても、248 が抜けている可能性もある。チェリーピッ
++    キングされたパッチでのみ発生する。
++    Note: この形式はパッチ 7.4.237 以降で機能し、それより前ではパッチと
++    v:version の両方を確認する必要がある。例 (バージョン 6.2.148 以降であるこ
++    とを確認する): >
++	:if v:version > 602 || (v:version == 602 && has("patch148"))
+ 
+ ヒント: Vim がファイル名(MS-Windows)でバックスラッシュをサポートしているかどうか
+ を調べるには `if exists('+shellslash')` を使用する。
+diff --git a/en/eval.txt b/en/eval.txt
+index dfc9a84..6408165 100644
+--- a/en/eval.txt
++++ b/en/eval.txt
+@@ -4729,6 +4729,10 @@ getloclist({nr} [, {what}])				*getloclist()*
+ 		If the optional {what} dictionary argument is supplied, then
+ 		returns the items listed in {what} as a dictionary. Refer to
+ 		|getqflist()| for the supported items in {what}.
++		If {what} contains 'filewinid', then returns the id of the
++		window used to display files from the location list. This
++		field is applicable only when called from a location list
++		window.
+ 
+ getmatches()						*getmatches()*
+ 		Returns a |List| with all matches previously defined by
+@@ -8009,7 +8013,7 @@ substitute({expr}, {pat}, {sub}, {flags})		*substitute()*
+ 		|submatch()| returns.  Example: >
+ 		   :echo substitute(s, '%\(\x\x\)', {m -> '0x' . m[1]}, 'g')
+ 
+-swapinfo({fname})					swapinfo()
++swapinfo({fname})					*swapinfo()*
+ 		The result is a dictionary, which holds information about the
+ 		swapfile {fname}. The available fields are:
+ 			version VIM version
+@@ -8684,6 +8688,11 @@ test_autochdir()					*test_autochdir()*
+ 		Set a flag to enable the effect of 'autochdir' before Vim
+ 		startup has finished.
+ 
++test_feedinput({string})				*test_feedinput()*
++		Characters in {string} are queued for processing as if they
++		were typed by the user. This uses a low level input buffer.
++		This function works only when with |+unix| or GUI is running.
++
+ test_garbagecollect_now()			 *test_garbagecollect_now()*
+ 		Like garbagecollect(), but executed right away.  This must
+ 		only be called directly to avoid any structure to exist
+@@ -8724,13 +8733,26 @@ test_override({name}, {val})				*test_override()*
+ 		to run tests. Only to be used for testing Vim!
+ 		The override is enabled when {val} is non-zero and removed
+ 		when {val} is zero.
+-		Current supported values for name are: 
++		Current supported values for name are:
+ 
+ 		name	     effect when {val} is non-zero ~
+ 		redraw       disable the redrawing() function
+ 		char_avail   disable the char_avail() function
++		starting     reset the "starting" variable, see below
++		nfa_fail     makes the NFA regexp engine fail to force a
++			     fallback to the old engine
+ 		ALL	     clear all overrides ({val} is not used)
+ 
++		"starting" is to be used when a test should behave like
++		startup was done.  Since the tests are run by sourcing a
++		script the "starting" variable is non-zero. This is usually a
++		good thing (tests run faster), but sometimes changes behavior
++		in a way that the test doesn't work properly.
++		When using: >
++			call test_override('starting', 1)
++<		The value of "starting" is saved.  It is restored by: >
++			call test_override('starting', 0)
++
+ test_settime({expr})					*test_settime()*
+ 		Set the time Vim uses internally.  Currently only used for
+ 		timestamps in the history, as they are used in viminfo, and
+@@ -8792,6 +8814,10 @@ timer_start({time}, {callback} [, {options}])
+ 		   "repeat"	Number of times to repeat calling the
+ 				callback.  -1 means forever.  When not present
+ 				the callback will be called once.
++				If the timer causes an error three times in a
++				row the repeat is cancelled.  This avoids that
++				Vim becomes unusable because of all the error
++				messages.
+ 
+ 		Example: >
+ 			func MyHandler(timer)
+@@ -8842,6 +8868,22 @@ tr({src}, {fromstr}, {tostr})				*tr()*
+ 			echo tr("<blob>", "<>", "{}")
+ <		returns "{blob}"
+ 
++trim({text} [, {mask}])						*trim()*
++		Return {text} as a String where any character in {mask} is
++		removed from the beginning and  end of {text}.
++		If {mask} is not given, {mask} is all characters up to 0x20,
++		which includes Tab, space, NL and CR, plus the non-breaking
++		space character 0xa0.
++		This code deals with multibyte characters properly.
++
++		Examples: >
++			echo trim("   some text ")
++<		returns "some text" >
++			echo trim("  \r\t\t\r RESERVE \t\n\x0B\xA0") . "_TAIL"
++<		returns "RESERVE_TAIL" >
++			echo trim("rm<Xrm<>X>rrm", "rm<>")
++<		returns "Xrm<>X" (characters in the middle are not removed)
++
+ trunc({expr})							*trunc()*
+ 		Return the largest integral value with magnitude less than or
+ 		equal to {expr} as a |Float| (truncate towards zero).
+@@ -8854,7 +8896,7 @@ trunc({expr})							*trunc()*
+ 			echo trunc(4.0)
+ <			4.0
+ 		{only available when compiled with the |+float| feature}
+-		
++
+ 							*type()*
+ type({expr})	The result is a Number representing the type of {expr}.
+ 		Instead of using the number directly, it is better to use the
+@@ -8907,7 +8949,7 @@ undotree()						*undotree()*
+ 		  "save_last"	Number of the last file write.  Zero when no
+ 				write yet.
+ 		  "save_cur"	Number of the current position in the undo
+-				tree.  
++				tree.
+ 		  "synced"	Non-zero when the last undo block was synced.
+ 				This happens when waiting from input from the
+ 				user.  See |undo-blocks|.
+@@ -9026,7 +9068,7 @@ win_getid([{win} [, {tab}]])				*win_getid()*
+ 		Get the |window-ID| for the specified window.
+ 		When {win} is missing use the current window.
+ 		With {win} this is the window number.  The top window has
+-		number 1.
++		number 1.  Use `win_getid(winnr())` for the current window.
+ 		Without {tab} use the current tab, otherwise the tab with
+ 		number {tab}.  The first tab has number one.
+ 		Return zero if the window cannot be found.
+@@ -9045,6 +9087,14 @@ win_id2win({expr})					*win_id2win()*
+ 		Return the window number of window with ID {expr}.
+ 		Return 0 if the window cannot be found in the current tabpage.
+ 
++win_screenpos({nr})					*win_screenpos()*
++		Return the screen position of window {nr} as a list with two
++		numbers: [row, col].  The first window always has position
++		[1, 1], unless there is a tabline, then it is [2, 1].
++		{nr} can be the window number or the |window-ID|.
++		Return [0, 0] if the window cannot be found in the current
++		tabpage.
++
+ 							*winbufnr()*
+ winbufnr({nr})	The result is a Number, which is the number of the buffer
+ 		associated with window {nr}.  {nr} can be the window number or
+@@ -9066,6 +9116,7 @@ winheight({nr})						*winheight()*
+ 		When {nr} is zero, the height of the current window is
+ 		returned.  When window {nr} doesn't exist, -1 is returned.
+ 		An existing window always has a height of zero or more.
++		This excludes any window toolbar line.
+ 		Examples: >
+   :echo "The current window has " . winheight(0) . " lines."
+ <
+@@ -9178,10 +9229,10 @@ winwidth({nr})						*winwidth()*
+ 		Examples: >
+   :echo "The current window has " . winwidth(0) . " columns."
+   :if winwidth(0) <= 50
+-  :  exe "normal 50\<C-W>|"
++  :  50 wincmd |
+   :endif
+-<               For getting the terminal or screen size, see the 'columns'
+-               option.
++<		For getting the terminal or screen size, see the 'columns'
++		option.
+ 
+ 
+ wordcount()						*wordcount()*
+@@ -9199,11 +9250,11 @@ wordcount()						*wordcount()*
+ 			cursor_words    Number of words before cursor position
+ 					(not in Visual mode)
+ 			visual_bytes    Number of bytes visually selected
+-			                (only in Visual mode)
++					(only in Visual mode)
+ 			visual_chars    Number of chars visually selected
+-			                (only in Visual mode)
+-			visual_words    Number of chars visually selected
+-			                (only in Visual mode)
++					(only in Visual mode)
++			visual_words    Number of words visually selected
++					(only in Visual mode)
+ 
+ 
+ 							*writefile()*
+@@ -9219,8 +9270,17 @@ writefile({list}, {fname} [, {flags}])
+ 		appended to the file: >
+ 			:call writefile(["foo"], "event.log", "a")
+ 			:call writefile(["bar"], "event.log", "a")
+->
+-<		All NL characters are replaced with a NUL character.
++<
++		When {flags} contains "s" then fsync() is called after writing
++		the file.  This flushes the file to disk, if possible.  This
++		takes more time but avoids losing the file if the system
++		crashes.
++		When {flags} does not contain "S" or "s" then fsync() is
++		called if the 'fsync' option is set.
++		When {flags} contains "S" then fsync() is not called, even
++		when 'fsync' is set.
++
++		All NL characters are replaced with a NUL character.
+ 		Inserting CR characters needs to be done before passing {list}
+ 		to writefile().
+ 		An existing file is overwritten, if possible.
+@@ -9250,22 +9310,16 @@ There are four types of features:
+     Example: >
+ 	:if has("gui_running")
+ <							*has-patch*
+-3.  Included patches.  The "patch123" feature means that patch 123 has been
+-    included.  Note that this form does not check the version of Vim, you need
+-    to inspect |v:version| for that.
+-    Example (checking version 6.2.148 or later): >
+-	:if v:version > 602 || v:version == 602 && has("patch148")
+-<    Note that it's possible for patch 147 to be omitted even though 148 is
+-    included.
+-
+-4.  Beyond a certain version or at a certain version and including a specific
+-    patch.  The "patch-7.4.237" feature means that the Vim version is 7.5 or
+-    later, or it is version 7.4 and patch 237 was included.
+-    Note that this only works for patch 7.4.237 and later, before that you
+-    need to use the example above that checks v:version.  Example: >
++3.  Beyond a certain version or at a certain version and including a specific
++    patch.  The "patch-7.4.248" feature means that the Vim version is 7.5 or
++    later, or it is version 7.4 and patch 248 was included.  Example: >
+ 	:if has("patch-7.4.248")
+-<    Note that it's possible for patch 147 to be omitted even though 148 is
+-    included.
++<    Note that it's possible for patch 248 to be omitted even though 249 is
++    included.  Only happens when cherry-picking patches.
++    Note that this form only works for patch 7.4.237 and later, before that
++    you need to check for the patch and the  v:version.  Example (checking
++    version 6.2.148 or later): >
++	:if v:version > 602 || (v:version == 602 && has("patch148"))
+ 
+ Hint: To find out if Vim supports backslashes in a file name (MS-Windows),
+ use: `if exists('+shellslash')`
+@@ -9277,6 +9331,8 @@ amiga			Amiga version of Vim.
+ arabic			Compiled with Arabic support |Arabic|.
+ arp			Compiled with ARP support (Amiga).
+ autocmd			Compiled with autocommand support. |autocommand|
++autochdir		Compiled with support for 'autochdir'
++autoservername		Automatically enable |clientserver|
+ balloon_eval		Compiled with |balloon-eval| support.
+ balloon_multiline	GUI supports multiline balloons.
+ beos			BeOS version of Vim.
+@@ -9350,9 +9406,8 @@ listcmds		Compiled with commands for the buffer list |:files|
+ 			and the argument list |arglist|.
+ localmap		Compiled with local mappings and abbr. |:map-local|
+ lua			Compiled with Lua interface |Lua|.
+-mac			Any Macintosh version of Vim.
+-macunix			Compiled for OS X, with darwin
+-osx			Compiled for OS X, with or without darwin
++mac			Any Macintosh version of Vim  cf. osx
++macunix			Synonym for osxdarwin
+ menu			Compiled with support for |:menu|.
+ mksession		Compiled with support for |:mksession|.
+ modify_fname		Compiled with file name modifiers. |filename-modifiers|
+@@ -9375,6 +9430,8 @@ netbeans_enabled	Compiled with support for |netbeans| and connected.
+ netbeans_intg		Compiled with support for |netbeans|.
+ num64			Compiled with 64-bit |Number| support.
+ ole			Compiled with OLE automation support for Win32.
++osx			Compiled for macOS  cf. mac
++osxdarwin		Compiled for macOS, with |mac-darwin-feature|
+ packages		Compiled with |packages| support.
+ path_extra		Compiled with up/downwards search in 'path' and 'tags'
+ perl			Compiled with Perl interface.
+@@ -9382,8 +9439,12 @@ persistent_undo		Compiled with support for persistent undo history.
+ postscript		Compiled with PostScript file printing.
+ printer			Compiled with |:hardcopy| support.
+ profile			Compiled with |:profile| support.
+-python			Compiled with Python 2.x interface. |has-python|
+-python3			Compiled with Python 3.x interface. |has-python|
++python			Python 2.x interface available. |has-python|
++python_compiled		Compiled with Python 2.x interface. |has-python|
++python_dynamic		Python 2.x interface is dynamically loaded. |has-python|
++python3			Python 3.x interface available. |has-python|
++python3_compiled	Compiled with Python 3.x interface. |has-python|
++python3_dynamic		Python 3.x interface is dynamically loaded. |has-python|
+ pythonx			Compiled with |python_x| interface. |has-pythonx|
+ qnx			QNX version of Vim.
+ quickfix		Compiled with |quickfix| support.
+@@ -9411,6 +9472,7 @@ tag_any_white		Compiled with support for any white characters in tags
+ 			files |tag-any-white|.
+ tcl			Compiled with Tcl interface.
+ termguicolors		Compiled with true color in terminal support.
++terminal		Compiled with |terminal| support.
+ terminfo		Compiled with terminfo instead of termcap.
+ termresponse		Compiled with support for |t_RV| and |v:termresponse|.
+ textobjects		Compiled with support for |text-objects|.
+@@ -9421,9 +9483,11 @@ title			Compiled with window title support |'title'|.
+ toolbar			Compiled with support for |gui-toolbar|.
+ ttyin			input is a terminal (tty)
+ ttyout			output is a terminal (tty)
+-unix			Unix version of Vim.
++unix			Unix version of Vim. *+unix*
+ unnamedplus		Compiled with support for "unnamedplus" in 'clipboard'
+ user_commands		User-defined commands.
++vcon			Win32: Virtual console support is working, can use
++			'termguicolors'. Also see |+vtp|.
+ vertsplit		Compiled with vertically split windows |:vsplit|.
+ vim_starting		True while initial source'ing takes place. |startup|
+ 			*vim_starting*
+@@ -9434,13 +9498,16 @@ visualextra		Compiled with extra Visual mode commands.
+ 			|blockwise-operators|.
+ vms			VMS version of Vim.
+ vreplace		Compiled with |gR| and |gr| commands.
++vtp			Compiled for vcon support |+vtp| (check vcon to find
++			out if it works in the current console).
+ wildignore		Compiled with 'wildignore' option.
+ wildmenu		Compiled with 'wildmenu' option.
++win16			old version for MS-Windows 3.1 (always False)
+ win32			Win32 version of Vim (MS-Windows 95 and later, 32 or
+ 			64 bits)
+ win32unix		Win32 version of Vim, using Unix files (Cygwin)
+ win64			Win64 version of Vim (MS-Windows 64 bit).
+-win95			Win32 version for MS-Windows 95/98/ME.
++win95			Win32 version for MS-Windows 95/98/ME (always False)
+ winaltkeys		Compiled with 'winaltkeys' option.
+ windows			Compiled with support for more than one window.
+ writebackup		Compiled with 'writebackup' default on.
+@@ -9525,13 +9592,16 @@ See |:verbose-cmd| for more information.
+ 
+ 						*E124* *E125* *E853* *E884*
+ :fu[nction][!] {name}([arguments]) [range] [abort] [dict] [closure]
+-			Define a new function by the name {name}.  The name
+-			must be made of alphanumeric characters and '_', and
+-			must start with a capital or "s:" (see above).  Note
+-			that using "b:" or "g:" is not allowed. (since patch
+-			7.4.260 E884 is given if the function name has a colon
+-			in the name, e.g. for "foo:bar()".  Before that patch
+-			no error was given).
++			Define a new function by the name {name}.  The body of
++			the function follows in the next lines, until the
++			matching |:endfunction|.
++
++			The name must be made of alphanumeric characters and
++			'_', and must start with a capital or "s:" (see
++			above).  Note that using "b:" or "g:" is not allowed.
++			(since patch 7.4.260 E884 is given if the function
++			name has a colon in the name, e.g. for "foo:bar()".
++			Before that patch no error was given).
+ 
+ 			{name} can also be a |Dictionary| entry that is a
+ 			|Funcref|: >
+@@ -9547,6 +9617,9 @@ See |:verbose-cmd| for more information.
+ 			not used an error message is given.  When [!] is used,
+ 			an existing function is silently replaced.  Unless it
+ 			is currently being executed, that is an error.
++			NOTE: Use ! wisely.  If used without care it can cause
++			an existing function to be replaced unexpectedly,
++			which is hard to debug.
+ 
+ 			For the {arguments} see |function-argument|.
+ 
+@@ -9596,18 +9669,36 @@ See |:verbose-cmd| for more information.
+ 			implies that the effect of |:nohlsearch| is undone
+ 			when the function returns.
+ 
+-					*:endf* *:endfunction* *E126* *E193*
+-:endf[unction]		The end of a function definition.  Must be on a line
+-			by its own, without other commands.
+-
++				*:endf* *:endfunction* *E126* *E193* *W22*
++:endf[unction] [argument]
++			The end of a function definition.  Best is to put it
++			on a line by its own, without [argument].
++
++			[argument] can be:
++				| command	command to execute next
++				\n command	command to execute next
++				" comment	always ignored
++				anything else	ignored, warning given when
++						'verbose' is non-zero
++			The support for a following command was added in Vim
++			8.0.0654, before that any argument was silently
++			ignored.
++
++			To be able to define a function inside an `:execute`
++			command, use line breaks instead of |:bar|: >
++				:exe "func Foo()\necho 'foo'\nendfunc"
++<
+ 				*:delf* *:delfunction* *E130* *E131* *E933*
+-:delf[unction] {name}	Delete function {name}.
++:delf[unction][!] {name}
++			Delete function {name}.
+ 			{name} can also be a |Dictionary| entry that is a
+ 			|Funcref|: >
+ 				:delfunc dict.init
+ <			This will remove the "init" entry from "dict".  The
+ 			function is deleted if there are no more references to
+ 			it.
++			With the ! there is no error if the function does not
++			exist.
+ 							*:retu* *:return* *E133*
+ :retu[rn] [expr]	Return from a function.  When "[expr]" is given, it is
+ 			evaluated and returned as the result of the function.
+@@ -9646,9 +9737,9 @@ to the number of named arguments.  When using "...", the number of arguments
+ may be larger.
+ 
+ It is also possible to define a function without any arguments.  You must
+-still supply the () then.  The body of the function follows in the next lines,
+-until the matching |:endfunction|.  It is allowed to define another function
+-inside a function body.
++still supply the () then.
++
++It is allowed to define another function inside a function body.
+ 
+ 							*local-variables*
+ Inside a function local variables can be used.  These will disappear when the
+@@ -10031,6 +10122,14 @@ This does NOT work: >
+ 			variables are automatically deleted when the function
+ 			ends.
+ 
++:unl[et] ${env-name} ...			*:unlet-environment* *:unlet-$*
++			Remove environment variable {env-name}.
++			Can mix {name} and ${env-name} in one :unlet command.
++			No error message is given for a non-existing
++			variable, also without !.
++			If the system does not support deleting an environment
++			variable, it is made emtpy.
++
+ :lockv[ar][!] [depth] {name} ...			*:lockvar* *:lockv*
+ 			Lock the internal variable {name}.  Locking means that
+ 			it can no longer be changed (until it is unlocked).
+@@ -11490,7 +11589,7 @@ code can be used: >
+     redir => scriptnames_output
+     silent scriptnames
+     redir END
+-    
++
+     " Split the output into lines and parse each line.	Add an entry to the
+     " "scripts" dictionary.
+     let scripts = {}
+@@ -11527,6 +11626,17 @@ missing: >
+ 	:  echo "You will _never_ see this message"
+ 	:endif
+ 
++To execute a command only when the |+eval| feature is disabled requires a trick,
++as this example shows: >
++
++	silent! while 0
++	  set history=111
++	silent! endwhile
++
++When the |+eval| feature is available the command is skipped because of the
++"while 0".  Without the |+eval| feature the "while 0" is an error, which is
++silently ignored, and the command is executed.
++
+ ==============================================================================
+ 11. The sandbox					*eval-sandbox* *sandbox* *E48*
+ 
+@@ -11539,7 +11649,7 @@ The sandbox is also used for the |:sandbox| command.
+ 
+ These items are not allowed in the sandbox:
+ 	- changing the buffer text
+-	- defining or changing mapping, autocommands, functions, user commands
++	- defining or changing mapping, autocommands, user commands
+ 	- setting certain options (see |option-summary|)
+ 	- setting certain v: variables (see |v:var|)  *E794*
+ 	- executing a shell command
+@@ -11561,6 +11671,7 @@ location.  Insecure in this context are:
+ - sourcing a .vimrc or .exrc in the current directory
+ - while executing in the sandbox
+ - value coming from a modeline
++- executing a function that was defined in the sandbox
+ 
+ Note that when in the sandbox and saving an option value and restoring it, the
+ option will still be marked as it was set in the sandbox.
+@@ -11603,4 +11714,4 @@ without the |+eval| feature.
+ Find more information in the file src/testdir/README.txt.
+ 
+ 
+- vim:tw=78:ts=8:ft=help:norl:
++ vim:tw=78:ts=8:noet:ft=help:norl:

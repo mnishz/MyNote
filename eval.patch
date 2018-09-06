@@ -1,5 +1,5 @@
 diff --git a/doc/eval.jax b/doc/eval.jax
-index 6144b43..2870764 100644
+index 6144b43..e3953a3 100644
 --- a/doc/eval.jax
 +++ b/doc/eval.jax
 @@ -4626,6 +4626,10 @@ getloclist({nr} [, {what}])				*getloclist()*
@@ -208,6 +208,250 @@ index 6144b43..2870764 100644
  
  ヒント: Vim がファイル名(MS-Windows)でバックスラッシュをサポートしているかどうか
  を調べるには `if exists('+shellslash')` を使用する。
+@@ -9001,6 +9057,8 @@ amiga			AMIGAバージョン
+ arabic			アラビア語をサポート |Arabic|
+ arp			ARPをサポート (Amiga)
+ autocmd			オートコマンドをサポート |autocommand|
++autochdir		'autochdir' をサポート
++autoservername		|clientserver| を自動的に有効化する
+ balloon_eval		|balloon-eval| をサポート
+ balloon_multiline	複数行バルーンをサポート
+ beos			BeOSバージョン
+@@ -9069,9 +9127,8 @@ listcmds		バッファリスト用のコマンド|:files|と引数リスト用
+ 			ンド|arglist|をサポート
+ localmap		ローカルなマッピングと短縮入力をサポート|:map-local|
+ lua			Lua インターフェイスをサポート |Lua|
+-mac			すべてのマッキントッシュ版Vim
+-macunix			darwinつきのOS X
+-osx			darwinなしのOS X
++mac			すべてのマッキントッシュ版Vim、osx を参照
++macunix			osxdarwin と同じ
+ menu			|:menu|をサポート
+ mksession		|:mksession|をサポート
+ modify_fname		ファイル名変換子をサポート |filename-modifiers|
+@@ -9094,6 +9151,8 @@ netbeans_enabled	|netbeans|をサポートし、現在接続している
+ netbeans_intg		|netbeans|をサポート
+ num64			64ビット数値をサポート |Number|
+ ole			Win32にてOLEオートメーションをサポート
++osx			macOS 向けにコンパイル、mac を参照
++osxdarwin		|mac-darwin-feature| 付きで macOS 向けにコンパイル
+ packages		|packages|をサポート
+ path_extra		'path' と 'tags' の上方・下方検索をサポート
+ perl			Perlインターフェイスをサポート
+@@ -9101,9 +9160,17 @@ persistent_undo		永続アンドゥをサポート
+ postscript		PostScriptファイルの印刷をサポート
+ printer			|:hardcopy| をサポート
+ profile			|:profile| をサポート
+-python			Python 2.x インターフェイスをサポート |has-python|
+-python3			Python 3.x インターフェイスをサポート |has-python|
+-pythonx			|python_x| インターフェイスをサポート |has-pythonx|
++python			Python 2.x インタフェースが使用可能。|has-python|
++python_compiled		Python 2.x インタフェース付きでコンパイルされ
++			た。|has-python|
++python_dynamic		Python 2.x インタフェースが動的にロードされ
++			た。|has-python|
++python3			Python 3.x インタフェースが使用可能。|has-python|
++python3_compiled	Python 3.x インタフェース付きでコンパイルされ
++			た。|has-python|
++python3_dynamic		Python 3.x インタフェースが動的にロードされ
++			た。|has-python|
++pythonx			Compiled with |python_x| interface. |has-pythonx|
+ qnx			QNXバージョン
+ quickfix		|quickfix|をサポート
+ reltime			|reltime()|をサポート
+@@ -9126,6 +9193,7 @@ tag_old_static		旧式の静的tagsをサポート |tag-old-static|
+ tag_any_white		タグファイル内の空白文字をサポート |tag-any-white|
+ tcl			TCLインターフェイスをサポート
+ termguicolors		端末でのtrueカラーをサポート
++terminal		|terminal| をサポート
+ terminfo		termcapの代わりにterminfoをサポート
+ termresponse		|t_RV|と|v:termresponse|をサポート
+ textobjects		|text-objects|をサポート
+@@ -9135,9 +9203,11 @@ title			ウィンドウタイトルをサポート |'title'|
+ toolbar			|gui-toolbar|をサポート
+ ttyin			入力が端末 (tty) である
+ ttyout			出力が端末 (tty) である
+-unix			UNIXバージョン
++unix			Vim の Unix バージョン。*+unix*
+ unnamedplus		'clipboard' に "unnamedplus" をサポート
+ user_commands		ユーザー定義コマンドをサポート
++vcon			Win32: 仮想コンソールサポートが機能していて、
++			'termguicolors' を使用することができる。|+vtp| も参照。
+ vertsplit		ウィンドウの垂直分割をサポート |:vsplit|
+ vim_starting		Vimの初期化プロセス中は真となる。|startup|
+ 			*vim_starting*
+@@ -9147,12 +9217,15 @@ visual			ビジュアルモードをサポート
+ visualextra		拡張ビジュアルモードをサポート |blockwise-operators|
+ vms			VMSバージョン
+ vreplace		コマンド|gR|と|gr|をサポート
++vtp			vcon をサポート |+vtp| (現在のコンソール内で機能するか
++			どうかを調べるには vcon を確認する)
+ wildignore		オプション 'wildignore' をサポート
+ wildmenu		オプション 'wildmenu' を指定してコンパイル
++win16			MS-Windows 3.1 用の古いバージョン (常に False)
+ win32			Win32バージョン(MS-Windows 95 以上の 32 or 64 ビット)
+ win32unix		Win32バージョン。Unixファイルを使用 (Cygwin)
+ win64			Win64バージョン(MS-Windows 64 bit)
+-win95			Win32バージョン。MS-Windows 95/98/ME用。
++win95			Win32バージョン。MS-Windows 95/98/ME用 (常に False)
+ winaltkeys		オプション 'winaltkeys' を指定してコンパイル
+ windows			複数ウィンドウをサポート
+ writebackup		オプション 'writebackup' が起動時にonになる
+@@ -9234,13 +9307,15 @@ x11			X11をサポート
+ 
+ 						*E124* *E125* *E853* *E884*
+ :fu[nction][!] {name}([arguments]) [range] [abort] [dict] [closure]
+-			{name}という名前で新しい関数を定義する。関数名はアル
+-			ファベットと数字と '_' からなり、通常の関数はアルファ
+-			ベットの大文字、スクリプトローカル関数は "s:" で始まら
+-			なければならない。Note: "b:" や "g:" は使用できない
+-			(7.4.260 からは関数名にコロンが含まれる場合は E884 エ
+-			ラーが発生する。例 "foo:bar()"。このパッチ以前はエラー
+-			にはならない)。
++			{name} という名前で新しい関数を定義する。関数の本体は、
++			次の行から |:endfunction| と一致するまで続く。
++
++			関数名はアルファベットと数字と '_' からなり、通常の関
++			数はアルファベットの大文字、スクリプトローカル関数は
++			"s:" で始まらなければならない。Note: "b:" や "g:" は
++			使用できない (7.4.260 からは関数名にコロンが含まれる場
++			合は E884 エラーが発生する。例 "foo:bar()"。このパッチ
++			以前はエラーにはならない)。
+ 
+ 			{name}は辞書|Dictionary|の要素の|Funcref|であってもよ
+ 			い: >
+@@ -9256,6 +9331,9 @@ x11			X11をサポート
+ 			れなかった場合、エラーとなる。[!] が使用されていれば、
+ 			それまで存在していた関数は、速やかに新しいものへ置換え
+ 			られる。
++			NOTE: ! は十分に注意して使用すること。注意せずに使用し
++			た場合は既存の関数を期待せず置き換える可能性があり、デ
++			バッグが難しくなる。
+ 
+ 			引数{arguments}については|function-argument|を参照。
+ 
+@@ -9304,17 +9382,34 @@ x11			X11をサポート
+ 			関数内で|:nohlsearch| を行っても、関数から戻ると検索結
+ 			果のハイライトが元に戻ることになる。
+ 
+-					*:endf* *:endfunction* *E126* *E193*
+-:endf[unction]		関数定義の終了。このコマンド1つで1行とすること。他のコ
+-			マンドをいっしょに書いてはならない。
+-
++				*:endf* *:endfunction* *E126* *E193* *W22*
++:endf[unction] [argument]
++			関数定義の終了。最も良いのは、[argument] 無しに行内に
++			これ自身のみを書くこと。
++
++			[argument] として可能なものは以下のとおり:
++				| コマンド	次に実行するコマンド
++				\n コマンド	次に実行するコマンド
++				" コメント	常に無視される
++				その他		無視される、'verbose' が非ゼロ
++						のときは警告が表示される
++			後ろに続くコマンドのサポートは Vim 8.0.0654 で追加され
++			ており、それ以前ではいかなる引数も黙って無視される。
++
++			コマンド `:execute` の内部で関数の定義を可能にするに
++			は、|:bar| の代わりに改行を使用する: >
++				:exe "func Foo()\necho 'foo'\nendfunc"
++<
+ 				*:delf* *:delfunction* *E130* *E131* *E933*
+-:delf[unction] {name}	関数{name}を削除する。
++:delf[unction][!] {name}
++			関数{name}を削除する。
+ 			{name}は辞書|Dictionary|の要素の|Funcref|であってもよ
+ 			い: >
+ 				:delfunc dict.init
+ <			この例は "dict" から要素 "init" を削除する。この関数へ
+ 			の参照がなくなると、関数は削除される。
++			! が付いていると、関数が存在していなくてもエラーが発生
++			しない。
+ 							*:retu* *:return* *E133*
+ :retu[rn] [expr]	関数から戻る。"[expr]" が与えられた場合、それは評価さ
+ 			れ関数の戻り値として呼出し側に渡される。"[expr]" が与
+@@ -9348,8 +9443,8 @@ a: のスコープとこの変数は固定されており、変更できない
+ 致していなければならない。"..." を使った時には引数の数は大きくなるだろう。
+ 
+ 関数を引数無しで定義することも可能である。その時でも()は付けなければならない。
+-関数の本体は、宣言の次の行から始まり、対応する|:endfunction|までになる。関数の
+-中で別の関数を定義することも可能である。
++
++関数の中で別の関数を定義することも可能である。
+ 
+ 
+ 							*local-variables*
+@@ -9714,11 +9809,19 @@ Vimはこれを見つけると、まず波括弧の中の式を評価し、そ
+ <			辞書からは一度に1個の要素を削除することができる: >
+ 				:unlet dict['two']
+ 				:unlet dict.two
+-			グローバル変数とスクリプトローカル変数をクリーンアップ
++<			グローバル変数とスクリプトローカル変数をクリーンアップ
+ 			するために特に便利である(これらはスクリプト終了時に検
+ 			出されない)。関数ローカルな関数は、その関数から抜ける
+ 			ときに自動的に削除される。
+ 
++:unl[et] ${env-name} ...			*:unlet-environment* *:unlet-$*
++			環境変数 {env-name} を削除する。
++			一つの :unlet コマンドの中に {name} と ${env-name} を
++			混ぜることができる。! が付いていない場合でも、存在しな
++			い変数に対してエラーメッセージは表示されない。
++			システムが環境変数の削除をサポートしていない場合は空に
++			する。
++
+ :lockv[ar][!] [depth] {name} ...			*:lockvar* *:lockv*
+ 			内部変数{name}をロックする。ロックすると、それ以降変更
+ 			ができなくなる(アンロックするまで)。
+@@ -11125,7 +11228,7 @@ matchstr()やsubstitute()を使えば実現できる。以下の例は、"foobar
+     redir => scriptnames_output
+     silent scriptnames
+     redir END
+-    
++
+     " 出力を行のリストに分割し、各行をパースする。辞書 "scripts" に要素を追加
+     " する。
+     let scripts = {}
+@@ -11160,6 +11263,17 @@ matchstr()やsubstitute()を使えば実現できる。以下の例は、"foobar
+ 	:  echo "You will _never_ see this message"
+ 	:endif
+ 
++|+eval|機能が無効になっているときだけにコマンドを実行するには、この例のような
++トリックが必要である: >
++
++	silent! while 0
++	  set history=111
++	silent! endwhile
++
++|+eval| 機能が有効なとき、"while 0" のためにコマンドはスキップされる。|+eval|
++機能がない場合、"while 0" はエラーとなり黙って無視されるため、コマンドが実行さ
++れる。
++
+ ==============================================================================
+ 11. サンドボックス				*eval-sandbox* *sandbox* *E48*
+ 
+@@ -11173,7 +11287,7 @@ matchstr()やsubstitute()を使えば実現できる。以下の例は、"foobar
+ 
+ サンドボックス内では以下の事が禁止される:
+ 	- バッファの変更
+-	- マッピング、オートコマンド、関数、ユーザー定義コマンドの定義・変更
++	- マッピング、オートコマンド、ユーザー定義コマンドの定義・変更
+ 	- ある種のオプションの設定 (|option-summary|を参照)
+ 	- ある種のVim定義済変数(v:)の設定 (|v:var|を参照)  *E794*
+ 	- シェルコマンドの実行
+@@ -11196,6 +11310,7 @@ matchstr()やsubstitute()を使えば実現できる。以下の例は、"foobar
+ - カレントディレクトリの .vimrc や .exrc を source するとき
+ - サンドボックス内で実行している最中
+ - モードラインから設定された値
++- サンドボックス内で定義された関数の実行
+ 
+ Note サンドボックス内でオプションの値を退避し、それから復元した場合、そのオプ
+ ションはやはりサンドボックス内で設定されたものとマークされる。
+@@ -11238,4 +11353,4 @@ Vim はビルドした後、通常 "make test" を使ってテストできる。
+ 詳細は、src/testdir/README.txt ファイルを参照。
+ 
+ 
+- vim:tw=78:ts=8:ft=help:norl:
++ vim:tw=78:ts=8:noet:ft=help:norl:
 diff --git a/en/eval.txt b/en/eval.txt
 index dfc9a84..6408165 100644
 --- a/en/eval.txt

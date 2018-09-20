@@ -39,6 +39,9 @@ eval.txtに、コマンドじゃないのに ` ` で括っている箇所が結�
  -> これはそのままでいいとのこと: https://github.com/vim-jp/issues/issues/1172#issuecomment-417946046
 expr-entryで間違って "例" と訳されているものがある
 
+以下、バグじゃなかった。仕様
+:h :put
+https://superuser.com/questions/1003936/cant-copy-certain-gvim-text-eg-version-or-error-messages
 0. 前提、clipboard=unnamed
 1. 適当な文字列をyank
 2. :redir @"

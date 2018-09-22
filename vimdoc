@@ -58,6 +58,7 @@ https://superuser.com/questions/1003936/cant-copy-certain-gvim-text-eg-version-o
 
 c-a/c-x で英単語をサポートするとか
 one -> two -> three みたいに
+あと曜日(Sun, Mon, 火, 水)とか月(Jan, Feb, Mar)とかもできそう
 
 インデントのまとまりでソートする機能とか
     1. foo

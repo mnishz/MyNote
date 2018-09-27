@@ -64,6 +64,9 @@ git checkout master
 git pull upstream master
 git push origin master
 
+git tag -a "tag name" -m "comment" SHA
+git push origin "tag name"
+
 git reflog
 git log -g
 cat .git/HEAD

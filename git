@@ -6,7 +6,11 @@ git remote -v
 
 git checkout BRANCH_NAME
 	これはHEADをBRANCH_NAMEの先頭に移動させる
-	ローカルにないリモートブランチも、ブランチ名だけでcheckoutできる		
+	ローカルにないリモートブランチも、ブランチ名だけでcheckoutできる、がいつもハマる。。
+		git fetch --all
+		git branch --all
+		git checkout branch_name
+	の順でやるのがよさそう。checkoutにはブランチ名だけを書く。(リモート名は入れない)
 git checkout -b BRANCH_NAME
 git checkout SHA -b BRANCH_NAME
 git checkout SHA

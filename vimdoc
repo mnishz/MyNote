@@ -34,13 +34,6 @@ diffすると変わっているように見える。でもgVimだとちゃんと
 6. "j" や "k" で移動すると、スクロールしない -> スクロールしないというより再描画されていない、<c-l> で表示される
 7. vimrcなしだと起きない気がする
 
-修正候補
-:checkpath で見つからなかったときのエラーメッセージが微妙 -> 解析したところ、直すの難しそう
-eval.txtに、コマンドじゃないのに ` ` で括っている箇所が結構ありそう
- -> これはそのままでいいとのこと: https://github.com/vim-jp/issues/issues/1172#issuecomment-417946046
-expr-entryで間違って "例" と訳されているものがある
-'key' のコマンド行ハイライトが、カラム越えで機能していない。
-
 以下、バグじゃなかった。仕様
 :h :put
 https://superuser.com/questions/1003936/cant-copy-certain-gvim-text-eg-version-or-error-messages
@@ -52,6 +45,13 @@ https://superuser.com/questions/1003936/cant-copy-certain-gvim-text-eg-version-o
 5. pを押すと、1でyankした文字列がpasteされる
 6. :regで見ると無名レジスタにはちゃんと入っていて、""pではちゃんとpasteされる
 
+ヘルプ修正候補
+:checkpath で見つからなかったときのエラーメッセージが微妙 -> 解析したところ、直すの難しそう
+eval.txtに、コマンドじゃないのに ` ` で括っている箇所が結構ありそう
+ -> これはそのままでいいとのこと: https://github.com/vim-jp/issues/issues/1172#issuecomment-417946046
+expr-entryで間違って "例" と訳されているものがある
+'key' のコマンド行ハイライトが、カラム越えで機能していない。
+
 英単語
     wording
     tweak
@@ -60,7 +60,7 @@ https://superuser.com/questions/1003936/cant-copy-certain-gvim-text-eg-version-o
 
 c-a/c-x で英単語をサポートするとか
 one -> two -> three みたいに
-あと曜日(Sun, Mon, 火, 水)とか月(Jan, Feb, Mar)とかもできそう
+あと曜日(Sun, Mon, 火, 水, Thurthday)とか月(Jan, Feb, Mar, April)とかもできそう
 英語と中国語あたりサポートしておいたらよいのでは
 
 インデントのまとまりでソートする機能とか
@@ -75,3 +75,5 @@ tyruさんのcfiをstatuslineに入れていると、関数を書いている途
 句読点の前後だと[]がハイライトされない。:h :endfunction 参照。
 
 どのタブにも表示される固定ウィンドウを作るとか。
+
+ヘルプの80カラムの制限を外して表示する。:h indexとかは改行がいっぱいあって見づらい(個人の感想)。

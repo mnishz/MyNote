@@ -51,6 +51,7 @@ eval.txtに、コマンドじゃないのに ` ` で括っている箇所が結�
  -> これはそのままでいいとのこと: https://github.com/vim-jp/issues/issues/1172#issuecomment-417946046
 expr-entryで間違って "例" と訳されているものがある
 'key' のコマンド行ハイライトが、カラム越えで機能していない。
+ -> これは自分の80列以上のerror表示のせいだった。--cleanでは発生しない。
 
 英単語
     wording

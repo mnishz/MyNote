@@ -39,6 +39,7 @@ diffすると変わっているように見える。でもgVimだとちゃんと
 
 ヘルプ修正候補
 expr-entryで間違って "例" と訳されているものがある
+g:netrw_browse_split@en のカラム越え
 
 英単語
     wording

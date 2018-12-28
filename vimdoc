@@ -39,7 +39,11 @@ diffすると変わっているように見える。でもgVimだとちゃんと
 
 ヘルプ修正候補
 expr-entryで間違って "例" と訳されているものがある
-g:netrw_browse_split@en のカラム越え
+g:netrw_browse_split@en のカラム越え、他にもちょいちょい
+g:netrw_home@en のスペースが抜けている
+g:netrw_localcopycmd@en 周辺の先頭行に不要なスペース、他にもちょいちょいある
+g:netrw_localmkdir@en が1行だけスペースインデントになっている
+g:netrw_special_syntax@en にもタブの箇所に変なスペース、あとnetrw.vimの説明のところはコマンドではないと思うのだけれど。。ただ8.1でそのように更新されている。
 
 英単語
     wording

@@ -76,3 +76,19 @@ tyruさんのcfiをstatuslineに入れていると、関数を書いている途
 単語や行を、", ', (, [, { などで括るプラグイン。
     普通にある
     https://www.clear-code.com/blog/2018/4/23.html
+
+( 移動しない
+{ 移動する -> 期待？
+[ 移動しない
+< 移動しない
+" 移動する
+' 移動する
+` 移動する
+
+vim --clean
+(:set statusline=%f\ %l/%L)
+:term
+./9500
+<C-w>Ni
+./a.out
+<C-w>N/waitforawhile...............(ドットを連打してればそのうち起きる)

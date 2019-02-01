@@ -96,3 +96,6 @@ vim --clean
 原因
     端末ノーマルなのにscrollbackされるのと、incsearchでカーソル位置を戻しているのが競合しているっぽい
     main -> vim_main2 -> main_loop -> normal_cmd -> nv_search -> getcmdline -> getcmdline_int -> may_do_incsearch_highlighting
+
+Ctrl-P
+    ヘルプを開いている状態からだとmruが機能しない。ファイルに飛べない。

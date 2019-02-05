@@ -99,3 +99,54 @@ vim --clean
 
 Ctrl-P
     ヘルプを開いている状態からだとmruが機能しない。ファイルに飛べない。
+
+Summary
+    E315 occurs when typing text for search command with the following conditions.
+        * set incsearch
+        * Terminal-Normal mode
+        * The number of lines exceeds 'termwinscroll'
+
+How to recreate
+    vim -Nu NONE main.c
+    :set incsearch
+    :term
+    cat 9500_lines
+    <c-w>Ni
+    gcc main.c
+    ./a.out
+    <c-w>N
+    /wait for a while....
+
+Failure sequence
+    main
+        vim_main2
+            main_loop
+                normal_cmd
+                    nv_search
+                        getcmdline
+                            getcmdline_int
+                                may_do_incsearch_highlighting
+                                    restore curwin->w_cursor in the function
+                                    validate_cursor
+                                        curs_columns
+                                            getvvcol
+                                                getvcol
+                                                    ml_get_buf
+                                                        E315
+
+I think there are at least three points that can cause E315.
+1. 
+2. 
+3. 
+
+Root cause
+    My 1st idea:
+        Incsearch functions restore curwin->w_cursor to the last line after some lines in terminal were scrolled off.
+        So, I thought that we can fix it by calling check_cusor() after the restoring.
+    But, on second though,
+        It might not be expected behavior that terminal buffer is updated during terminal-normal mode.
+        When I types text for search command, it seems that the buffer is updated and could be scrolled off.
+            :h Terminal-Normal
+            The commands that would start insert mode, such as 'i' and 'a', return to Terminal-Job mode.
+            The window will be updated to show the contents of the terminal.
+        I also found that any motion normal commands like 'G' update the buffer.

@@ -49,59 +49,93 @@ g:netrw_special_syntax@en にもタブの箇所に変なスペース、あとnet
     wording
     tweak
 
+Vim ネタ
+    対象が先にあるとき
+        di( 移動しない (何も起きない)
+        di{ 移動して削除 -> 期待？
+        di[ 移動しない (何も起きない)
+        di< 移動しない (何も起きない)
+        di" 移動して削除
+        di' 移動して削除
+        di` 移動して削除
+
+    incsearchで、"/foo\|" と入力した直後にすべての文字がハイライトされるのを防ぐ仕組みがあるけれど、"/\vfoo|" では効かない。
+
 プラグインネタ
+    c-a/c-x で英単語をサポートするとか
+    one -> two -> three みたいに
+    あと曜日(Sun, Mon, 火, 水, Thurthday)とか月(Jan, Feb, Mar, April)とかもできそう
+    英語と中国語あたりサポートしておいたらよいのでは
 
-c-a/c-x で英単語をサポートするとか
-one -> two -> three みたいに
-あと曜日(Sun, Mon, 火, 水, Thurthday)とか月(Jan, Feb, Mar, April)とかもできそう
-英語と中国語あたりサポートしておいたらよいのでは
+    インデントのまとまりでソートする機能とか
+        1. foo
+            bar
+        2. abc
+            def
+    これのソートが直感どおりになるようにしたい
 
-インデントのまとまりでソートする機能とか
-    1. foo
-        bar
-    2. abc
-        def
-これのソートが直感どおりになるようにしたい
+    '/'や'n'で検索中に、小窓を開いて次の候補を表示しておくとか
 
-'/'や'n'で検索中に、小窓を開いて次の候補を表示しておくとか
+    tyruさんのcfiをstatuslineに入れていると、関数を書いている途中で止まる。
+    コメントしたけど反応なし
 
-tyruさんのcfiをstatuslineに入れていると、関数を書いている途中で止まる。
+    句読点の前後だと[]がハイライトされない。:h :endfunction 参照。
 
-句読点の前後だと[]がハイライトされない。:h :endfunction 参照。
+    どのタブにも表示される固定ウィンドウを作るとか。もうライブラリとしてありそう。
 
-どのタブにも表示される固定ウィンドウを作るとか。もうライブラリとしてありそう。
+    ヘルプの80カラムの制限を外して表示する。:h indexとかは改行がいっぱいあって見づらい(個人の感想)。
 
-ヘルプの80カラムの制限を外して表示する。:h indexとかは改行がいっぱいあって見づらい(個人の感想)。
+    単語や行を、", ', (, [, { などで括るプラグイン。
+        普通にある
+        https://www.clear-code.com/blog/2018/4/23.html
 
-単語や行を、", ', (, [, { などで括るプラグイン。
-    普通にある
-    https://www.clear-code.com/blog/2018/4/23.html
+カラースキーム
+    cosmic_latte
+    allomancer
+    escuro
+    srcery
+    blayu
+    hypsteria
+    yellow-moon
+    orange-moon
+    pink-moon
+    snow
+    skeletor
+    chito
+    monokai_pro
+    perun
+    simplifysimplify-dark
 
-( 移動しない
-{ 移動する -> 期待？
-[ 移動しない
-< 移動しない
-" 移動する
-' 移動する
-` 移動する
-
-Ctrl-P
-    ヘルプを開いている状態からだとmruが機能しない。ファイルに飛べない。
-
-incsearchで、"/foo\|" と入力した直後にすべての文字がハイライトされるのを防ぐ仕組みがあるけれど、"/\vfoo|" では効かない。
-
-cosmic_latte
-allomancer
-escuro
-srcery
-blayu
-hypsteria
-yellow-moon
-orange-moon
-pink-moon
-snow
-skeletor
-chito
-monokai_pro
-perun
-simplifysimplify-dark
+mattnさんが導入しているプラグイン
+    Plug 'mattn/vim-findroot'
+    Plug 'mattn/gist-vim'
+    Plug 'mattn/sonictemplate-vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'twitvim/twitvim'
+    Plug 'rking/ag.vim'
+    Plug 'mattn/ctrlp-launcher'
+    Plug 'koron/dicwin-vim'
+    Plug 'tyru/open-browser.vim'
+    Plug 'thinca/vim-ambicmd'
+    Plug 'thinca/vim-openbuf'
+    Plug 'thinca/vim-quickrun'
+    Plug 'mattn/quickrunex-vim'
+    Plug 'mattn/webapi-vim'
+    Plug 'vim-jp/vim-cpp', { 'for': ['cpp', 'c'] }
+    Plug 'OrangeT/vim-csharp'
+    Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
+    Plug 'mattn/emmet-vim', { 'for': ['jsx', 'javascript', 'xml', 'html', 'css', 'php'] }
+    Plug 'gorodinskiy/vim-coloresque' ", { 'for': 'css' }
+    Plug 'fatih/vim-go', { 'for': 'go' }
+    Plug 'kannokanno/previm', { 'for': ['markdown', 'rst'] }
+    Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+    Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+    Plug 'leafgarland/typescript-vim' ", { 'for': 'typescript' }
+    Plug 'mattn/vim-maketable'
+    Plug 'NLKNguyen/papercolor-theme'
+    Plug 'justinmk/vim-dirvish'
+    Plug 'vim-jp/vimdoc-ja'
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    Plug 'prabirshrestha/async.vim'
+    Plug 'prabirshrestha/vim-lsp'

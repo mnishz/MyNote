@@ -143,27 +143,5 @@ mattnさんが導入しているプラグイン
     Plug 'prabirshrestha/vim-lsp'
 
 clangd
-    [[plugins]]
-    repo='prabirshrestha/async.vim'
-
-    [[plugins]]
-    repo='prabirshrestha/asyncomplete.vim'
-
-    [[plugins]]
-    repo='prabirshrestha/asyncomplete-lsp.vim'
-
-    [[plugins]]
-    repo='prabirshrestha/vim-lsp'
-    hook_add='''
-      if executable('clangd')
-        au User lsp_setup call lsp#register_server({
-          \ 'name': 'clangd',
-          \ 'cmd': {server_info->['clangd']},
-          \ 'whitelist': ['c', 'cpp'],
-          \ })
-      endif
-      let g:lsp_diagnostics_echo_cursor = 1
-    '''
-    
-    clangd
+    clang
     compiledb

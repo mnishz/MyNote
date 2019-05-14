@@ -1,0 +1,1464 @@
+diff --git a/doc/cmdline.jax b/doc/cmdline.jax
+index 353eb25..31c0fbf 100644
+--- a/doc/cmdline.jax
++++ b/doc/cmdline.jax
+@@ -1,4 +1,4 @@
+-*cmdline.txt*   For Vim バージョン 8.1.  Last change: 2018 May 14
++*cmdline.txt*   For Vim バージョン 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		  VIMリファレンスマニュアル    by Bram Moolenaar
+@@ -25,7 +25,6 @@
+ 
+ 通常、文字はカーソル位置の前に挿入される。コマンドラインでは左右のカーソルキー
+ で移動ができる。<Insert>キーで挿入と上書を切り替えることができる。
+-{Vi: 行の最後の文字しか変更できない}
+ 
+ Note キーボードに有効なカーソルキーまたは他の特殊なキーが一切ないときでも、コ
+ マンド ":cnoremap" を使って他のキーをそれらに割り当てられることに注意。
+@@ -61,7 +60,6 @@ NOTE:
+ - 全ての検索パターンは、コマンド "*" や "#" 等によるものも含め、検索用の履歴に
+   記録される。しかしマッピングからの検索に対しては、最後の検索のみが記録される
+   (長いマッピングが履歴の内容を捨ててしまうのを避けるため)。
+-{Vi: 履歴はない}
+ {Vimが |+cmdline_hist| 機能付きでコンパイルされたときのみ有効}
+ 
+ コマンドラインには名前の自動補完機能がある。|cmdline-completion| を参照。
+@@ -116,12 +114,12 @@ CTRL-U		行頭とカーソル位置の間の全ての文字を削除する。Vim
+ 			:cnoremap <C-U> <C-E><C-U>
+ <
+ 						*c_<Insert>* *c_Insert*
+-<Insert>	挿入／上書の切り替え  {Vi にはない}
++<Insert>	挿入／上書の切り替え
+ 
+ {char1} <BS> {char2}	または				*c_digraph*
+ CTRL-K {char1} {char2}					*c_CTRL-K*
+ 		ダイグラフの入力 (|digraphs| を参照)。{char1} が特殊キーのとき
+-		は、そのキーコードは <> 形式で挿入される。 {Vi にはない}
++		は、そのキーコードは <> 形式で挿入される。
+ 
+ CTRL-R {0-9a-z"%#:-=.}					*c_CTRL-R* *c_<C-R>*
+ 		番号/名前付きレジスタの内容を挿入する。CTRL-R を打ち込んで次の
+@@ -155,7 +153,7 @@ CTRL-R {0-9a-z"%#:-=.}					*c_CTRL-R* *c_<C-R>*
+ 				もよい。
+ 				結果が浮動小数点数である場合、自動的に文字列に
+ 				変換される。
+-		レジスタに関しては |registers| を参照。 {Vi にはない}
++		レジスタに関しては |registers| を参照。
+ 		実装上の詳細: |expression|レジスタを使っているときに
+ 		setcmdpos()を呼ぶと結果文字列を挿入する前の位置をセットする。
+ 		挿入後の位置をセットするにはCTRL-R CTRL-Rを使うこと。
+@@ -179,7 +177,6 @@ CTRL-R CTRL-L				*c_CTRL-R_CTRL-L* *c_<C-R>_<C-L>*
+ 		{訳注: wordという単語のrの上にカーソルを置き、:wo<C-r><C-w>と
+ 		してみると、'incsearch' の値によって結果が違うことがわかる}
+ 
+-		{Vi にはない}
+ 		CTRL-F と CTRL-P: {Vimが |+file_in_path| 機能付きでコンパイル
+ 		されたときのみ有効}
+ 
+@@ -298,10 +295,9 @@ CTRL-^		言語マッピング |:lmap| を切り替えたり、Input Method (IM)
+ 		語マッピングはオフに切り替えられる。CTRL-^ でオンにした後も、
+ 		次にコマンドや検索パターンを打ち込むときにはその状態は使われな
+ 		い。
+-		{Vi にはない}
+ 
+ 						*c_CTRL-]*
+-CTRL-]		文字を挿入することなく短縮入力を展開する。{Vi にはない}
++CTRL-]		文字を挿入することなく短縮入力を展開する。
+ 
+ コマンドラインをEmacsスタイルで編集する方法については |emacs-keys| を参照。
+ 
+@@ -315,7 +311,6 @@ CTRL-]		文字を挿入することなく短縮入力を展開する。{Vi に
+ 
+ 							*:his* *:history*
+ :his[tory]	最近入力されたコマンドの履歴を表示する。
+-		{Vi にはない}
+ 		{Vimが |+cmdline_hist| 機能付きでコンパイルされたときのみ有効}
+ 
+ :his[tory] [{name}] [{first}][, [{last}]]
+@@ -326,7 +321,6 @@ CTRL-]		文字を挿入することなく短縮入力を展開する。{Vi に
+ 		i[nput]	 または @		入力行の履歴
+ 		d[ebug]	 または >		デバッグコマンドの履歴
+ 		a[ll]				上記のもの全て
+-		{Vi にはない}
+ 
+ 		{first} や {last} が指定されたときは、履歴中の指定された範囲の
+ 		項目が表示される。これらの数字は次の形式で指定する。
+diff --git a/doc/insert.jax b/doc/insert.jax
+index 7361559..c5e41ac 100644
+--- a/doc/insert.jax
++++ b/doc/insert.jax
+@@ -1,4 +1,4 @@
+-*insert.txt*    For Vim バージョン 8.1.  Last change: 2019 Apr 06
++*insert.txt*    For Vim バージョン 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		VIMリファレンスマニュアル    by Bram Moolenaar
+@@ -58,22 +58,21 @@ CTRL-C		挿入モードを終了し、ノーマルモードに戻る。短縮入
+ 		い。
+ 
+ 						*i_CTRL-@*
+-CTRL-@		直前に挿入されたテキストをもう一度挿入し、挿入を終了する。{Vi:
+-		最初に入力された時だけ、かつ最大128文字まで}
++CTRL-@		直前に挿入されたテキストをもう一度挿入し、挿入を終了する。
++
+ 						*i_CTRL-A*
+-CTRL-A		直前に挿入されたテキストをもう一度挿入する。 {Vi にはない}
++CTRL-A		直前に挿入されたテキストをもう一度挿入する。
+ 
+ 						*i_CTRL-H* *i_<BS>* *i_BS*
+ <BS> or CTRL-H	カーソルの前の文字を削除する(行同士の連結については
+ 		|i_backspacing|参照)。
+ 		<BS>キーが想定するように働かない場合には|:fixdel|を参照。
+-		{Vi: 自動字下げは消すことができない}
++
+ 						*i_<Del>* *i_DEL*
+ <Del>		カーソルの下の文字を削除する。カーソルが行末にあり、
+ 		'backspace' オプションに "eol" が含まれている場合には、<EOL>が
+ 		削除される; 現在の行の後ろに次の行が接続される。
+ 		<Del>キーが想定するように働かない場合には|:fixdel|を参照。
+-		{Vi にはない}
+ 						*i_CTRL-W*
+ CTRL-W		カーソルの前にある単語を削除する(行同士の連結については
+ 		|i_backspacing|参照)。単語の定義については "word motions" の節
+@@ -97,10 +96,10 @@ CTRL-K {char1} [char2]
+ 		ダイグラフ(|digraphs|参照)を入力する。{char1}が特別なキーだっ
+ 		た場合、そのキーのコードが<>の形で挿入される。例えば、
+ 		<C-K><S-Space>(キー2つ)と入力することで、文字列 "<S-Space>" が
+-		入力される。マッピングも考慮されない。 {Vi にはない}
++		入力される。マッピングも考慮されない。
+ 
+-CTRL-N		次のキーワードを探す(|i_CTRL-N|を参照)。 {Vi にはない}
+-CTRL-P		前のキーワードを探す(|i_CTRL-P|を参照)。 {Vi にはない}
++CTRL-N		次のキーワードを探す(|i_CTRL-N|を参照)。
++CTRL-P		前のキーワードを探す(|i_CTRL-P|を参照)。
+ 
+ CTRL-R {0-9a-z"%#*+:.-=}					*i_CTRL-R*
+ 		レジスタの内容を挿入する。CTRL-R をタイプしてから2つ目の文字を
+@@ -138,7 +137,7 @@ CTRL-R {0-9a-z"%#*+:.-=}					*i_CTRL-R*
+ 				される。
+ 				append() や setline() が使われると undo シーケ
+ 				ンスが分割される。
+-		レジスタについては|registers|を参照。 {Vi にはない}
++		レジスタについては|registers|を参照。
+ 
+ CTRL-R CTRL-R {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-R*
+ 		レジスタの内容を挿入する。CTRL-R が1つの時と同様に働くが、タイ
+@@ -151,7 +150,7 @@ CTRL-R CTRL-R {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-R*
+ 		これらのオプションを無効にするには CTRL-R CTRL-O を使用する。
+ 		以下参照。
+ 		'.' レジスタ(最後に挿入されたテキスト)は、タイプされたように挿
+-		入される。 {Vi にはない}
++		入される。
+ 
+ CTRL-R CTRL-O {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-O*
+ 		レジスタの内容が文字通り挿入され、自動インデントも行われない。
+@@ -159,36 +158,32 @@ CTRL-R CTRL-O {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-O*
+ 		linewise の時は、テキストを `P` と同様に現在行の上に挿入する。
+ 		キャラクタは置き換えられない!
+ 		'.' レジスタ(最後に挿入されたテキスト)は、タイプされたように挿
+-		入される。 {Vi にはない}
++		入される。
+ 
+ CTRL-R CTRL-P {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-P*
+ 		レジスタの内容が文字通りに挿入され、インデントが
+ 		|[<MiddleMouse>| 同様に修正される。
+ 		キャラクタは置き換えられない!
+ 		'.' レジスタ(最後に挿入されたテキスト)は、タイプされたように挿
+-		入される。 {Vi にはない}
++		入される。
+ 
+ 						*i_CTRL-T*
+ CTRL-T		現在の行の先頭にshiftwidth 1単位分の字下げを挿入する。字下げ幅
+-		は 'shiftwidth' に丸められる(これはviと同じ)。{Vi: 字下げされ
+-		ている時だけ}
++		は 'shiftwidth' に丸められる(これはviと同じ)。
+ 						*i_CTRL-D*
+ CTRL-D		現在の行の先頭の字下げを、shiftwidth 1単位分削除する。字下げ幅
+-		は 'shiftwidth' に丸められる(これはviと同じ)。{Vi: CTRL-Dは自
+-		動字下げの適用後にしか使えない}
++		は 'shiftwidth' に丸められる(これはviと同じ)。
+ 						*i_0_CTRL-D*
+-0 CTRL-D	現在行の字下げを完全に削除する。{Vi: CTRL-Dは自動字下げの適用
+-		後にしか使えない}
++0 CTRL-D	現在行の字下げを完全に削除する。
+ 						*i_^_CTRL-D*
+ ^ CTRL-D	現在行の字下げを完全に削除する。次の行では字下げは元に戻され
+-		る。これはラベルを入力する際に役に立つ。{Vi: CTRL-Dは自動字下
+-		げの適用後にしか使えない}
++		る。これはラベルを入力する際に役に立つ。
+ 
+ 						*i_CTRL-V*
+ CTRL-V		続く非数字文字を文字通りに挿入する。特別なキーはターミナルコー
+ 		ドが挿入される。10進数、8進数、16進数、の数字で文字コードを直
+ 		接指定することもできる|i_CTRL-V_digit|。CTRL-Vの後の入力には
+-		マップは適用されない。{Vi: 数字文字をバイトに変換できない}
++		マップは適用されない。
+ 		Note: CTRL-Vに他の動作がマップされているとき(例えばテキストを
+ 		ペーストするなど)、その場合には代わりにCTRL-Qを使用する
+ 		|i_CTRL-Q|。
+@@ -200,12 +195,12 @@ CTRL-Q		CTRL-Vと同じ。
+ 
+ CTRL-X		CTRL-Xモードに入る。これは単語の補完やウィンドウスクロールのコ
+ 		マンドを入力する、サブモードである。|i_CTRL-X|と
+-		|ins-completion|を参照。{Vi にはない}
++		|ins-completion|を参照。
+ 
+ 						*i_CTRL-E*
+-CTRL-E		カーソルの下の行の同じ位置の文字を挿入。{Vi にはない}
++CTRL-E		カーソルの下の行の同じ位置の文字を挿入。
+ 						*i_CTRL-Y*
+-CTRL-Y		カーソルの上の行の同じ位置の文字を挿入。{Vi にはない}
++CTRL-Y		カーソルの上の行の同じ位置の文字を挿入。
+ 		'textwidth' はCTRL-EとCTRL-Yには、長い行から文字をコピーするこ
+ 		とを可能にするために、効力を発揮しないことに注意。
+ 
+@@ -221,7 +216,6 @@ CTRL-_		次に示すように言語を切り替える:
+ 		このコマンドは 'allowrevins' オプションが設定されている時のみ
+ 		有効。
+ 		右→左モードについての詳しい情報は|rileft.txt|を参照。
+-		{Vi にはない}
+ 		|+rightleft|機能を有効(にしてコンパイルした時にだけ使用可能。
+ 
+ 						*i_CTRL-^*
+@@ -240,13 +234,12 @@ CTRL-^		入力言語を切替える。
+ 		オプションか "<lang>" がステータスラインに表示される。
+ 		言語マッピングは通常はキーボードにない文字を打つのに使われる。
+ 		これらの値を設定するために 'keymap' オプションを使える。
+-		{Vi にはない}
+ 
+ 						*i_CTRL-]*
+-CTRL-]		文字を入れることなく、短縮入力をトリガーする。{Vi にはない}
++CTRL-]		文字を入れることなく、短縮入力をトリガーする。
+ 
+ 						*i_<Insert>*
+-<Insert>	挿入と置換モードを交互に切り替える。{Vi にはない}
++<Insert>	挿入と置換モードを交互に切り替える。
+ -----------------------------------------------------------------------
+ 
+ 						*i_backspacing*
+@@ -268,7 +261,6 @@ start	    挿入の開始点を超えてバックスペースで消去可能; CT
+ 'backspace' オプションが "eol" を含まれている時に、カーソルが第1カラムにあり、
+ 3つのキーのうちどれかが押されると、現在の行が1行前の行に連結される。これはカー
+ ソルの前にある<EOL>を事実上消している。
+-{Vi: 行をまたいだり、挿入の開始点を超えての削除はできない}
+ 
+ 						*i_CTRL-V_digit*
+ CTRL-Vに続けて、10進数、8進数、16進数のどれかで文字コードを直接入力することが
+@@ -498,14 +490,14 @@ CTRL-Vを押してから入力する(CTRL-Vに他の動作がマップされて
+ 'expandtab' は初期状態でオフになっている。置換モードでは、1文字が複数のスペー
+ スで置換されることに注意。この結果、行の中の文字数は増える。バックスペースをす
+ ると、1度に1つの空白が削除される。元々そこにあった文字は、1つのスペース(最後の
+-1つ)を削除しただけで元に戻される。{Vi には 'expandtab' オプションはない}
++1つ)を削除しただけで元に戻される。
+ 
+ 							*ins-smarttab*
+ 'smarttab' オプションがオンの時には、1度の<Tab>で、行の先頭で<Tab>を1度押すと
+ 'shiftwidth' の位置まで、その他の場所では 'tabstop' の位置まで空白が挿入され
+ る。これは<Tab>文字の代わりに、度々スペースが挿入されることを意味している。
+ 'smarttab' がオフの時には、<Tab>では常に 'tabstop' の位置まで空白が挿入され、
+-'shiftwidth' は ">>" などの時にだけ使用される。{Vi には無い機能}
++'shiftwidth' は ">>" などの時にだけ使用される。
+ 
+ 							*ins-softtabstop*
+ 'softtabstop' オプションが零ではない時、<Tab>は 'softtabstop' で指定されるタブ
+@@ -542,14 +534,13 @@ UNDOになる。
+ 'expandtab' オプションがオンの場合、<Tab>は幾つかのスペースで置き換えられる。
+ 結果として行中の文字数は増えることになる。バックスペースは1度に1つの文字を消
+ す。もともとの文字は1つのスペース(最後の1つ)をバックスペースするだけで戻され
+-る。{Vi には 'expandtab' オプションはない}
++る。
+ 
+ ==============================================================================
+ 6. 仮想置換モード		*vreplace-mode* *Virtual-Replace-mode*
+ 
+ ノーマルモードで "gR" コマンドを使うと仮想置換モードに入る。
+ {|+vreplace| 機能を付けずにコンパイルした場合は利用できない}
+-{Vi には仮想置換モードはない}
+ 
+ 仮想置換モードは置換モードに良く似ているが、ファイルの実際の文字ごとにではな
+ く、スクリーン上の文字幅単位で置換することができ、そのためファイル内の他の文字
+@@ -1721,7 +1712,7 @@ I			行の先頭の非空白文字の前にテキストを[count]回挿入す
+ 			含む行では最後の空白文字の1文字前から挿入を開始する。
+ 
+ 							*gI*
+-gI			カラム1からテキストを[count]回挿入する。{Vi にはない}
++gI			カラム1からテキストを[count]回挿入する。
+ 
+ 							*gi*
+ gi			カレントバッファの最後に入力がされた場所にテキストを
+@@ -1732,19 +1723,16 @@ gi			カレントバッファの最後に入力がされた場所にテキスト
+ 			字単位の変更は考慮されない。
+ 			|:keepjumps|コマンドが使われると|'^|マークは変更されな
+ 			い。
+-			{Vi にはない}
+ 
+ 							*o*
+ o			カーソルのある行の下に新しい行を作り、そこにテキストを
+-			[count]回繰り返し挿入する。{Vi:空行を[count]行挿入す
+-			る}
++			[count]回繰り返し挿入する。
+ 			'cpoptions' にフラグ '#' が入っている場合、カウント指
+ 			定は無視される。
+ 
+ 							*O*
+ O			カーソルのある行の上に新しい行を作り、そこにテキストを
+-			[count]回繰り返し挿入する。{Vi:空行を[count]行挿入す
+-			る}
++			[count]回繰り返し挿入する。
+ 			'cpoptions' にフラグ '#' が入っている場合、カウント指
+ 			定は無視される。
+ 
+@@ -1795,7 +1783,6 @@ NOTE: これらのコマンドは |:global| または |:vglobal| と組み合わ
+ 			マンドを使用したときには、関数やスクリプトが終了してか
+ 			ら挿入が始まることに注意。
+ 			|:normal| からこのコマンドを呼び出すと機能しない。
+-			{Vi にはない}
+ 
+ 							*:stopi* *:stopinsert*
+ :stopi[nsert]		できるだけ早く挿入モードを中止する。挿入モードで
+@@ -1812,12 +1799,10 @@ NOTE: これらのコマンドは |:global| または |:vglobal| と組み合わ
+ 			Note 関数やスクリプトの中からこのコマンドを実行すると、
+ 			その関数・スクリプトが終了した後ではじめて置換モード
+ 			になることに注意。
+-			{Vi にはない}
+ 
+ 							*:startgreplace*
+ :startg[replace][!]	|:startreplace| と同様だが、|gR| のような仮想置換
+ 			モードになる。
+-			{Vi にはない}
+ 
+ ==============================================================================
+ 10. ファイルを挿入する					*inserting-file*
+diff --git a/doc/motion.jax b/doc/motion.jax
+index 6693699..e9a60df 100644
+--- a/doc/motion.jax
++++ b/doc/motion.jax
+@@ -1,4 +1,4 @@
+-*motion.txt*    For Vim バージョン 8.1.  Last change: 2019 Mar 02
++*motion.txt*    For Vim バージョン 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		  VIMリファレンスマニュアル	  by Bram Moolenaar
+@@ -185,7 +185,7 @@ l		or					*l*
+ 			上下に移動するときは同じ論理桁位置に留まります。(可能
+ 			であれば)。他のほとんどのコマンドは同じ物理桁位置に留
+ 			まります。<Home>は "1|" と同じように動作し、"0" との違
+-			いは行が <Tab> で始まる場合です。{Vi にはありません}
++			いは行が <Tab> で始まる場合です。
+ 
+ 							*^*
+ ^			その行の最初の非空白文字に移動します。|exclusive|。
+@@ -200,7 +200,6 @@ $  or <End>		その行の最後に移動します。カウントが指定され
+ 
+ 							*g_*
+ g_			[count - 1]行下の最後の非空白文字へ移動。|inclusive|。
+-			{Vi にはありません}
+ 
+ 							*g0* *g<Home>*
+ g0 or g<Home>		行が折り返されている場合('wrap' オン): スクリーン行の
+@@ -209,7 +208,6 @@ g0 or g<Home>		行が折り返されている場合('wrap' オン): スクリー
+ 			行が折り返されていない場合は('wrap' オフ): スクリーン
+ 			上の現在の行でもっとも左の文字に移動します。最初の文字
+ 			がスクリーン上にない場合に "0" とは違う動作になります。
+-			{Vi にはありません}
+ 
+ 							*g^*
+ g^			行が折り返されている場合('wrap' オン): スクリーン行の
+@@ -218,12 +216,11 @@ g^			行が折り返されている場合('wrap' オン): スクリーン行の
+ 			り返されていない場合は('wrap' オフ): スクリーン上の現
+ 			在の行でもっとも左側にある非空白文字に移動します。最初
+ 			の非空白文字がスクリーン上にない場合に "^" とは違う動
+-			作になります。 {Vi にはありません}
++			作になります。
+ 
+ 							*gm*
+ gm			"g0" と似ていますがスクリーンの幅の真ん中に移動します
+ 			(もしくは可能な限り真ん中に向かって右に)。
+-			{Vi にはありません}
+ 
+ 							*g$* *g<End>*
+ g$ or g<End>		行が折り返されている場合('wrap' オン): スクリーン行の
+@@ -237,7 +234,6 @@ g$ or g<End>		行が折り返されている場合('wrap' オン): スクリー
+ 			さらに、縦方向への移動は、行末でなく同じ桁になります。
+ 			'virtualedit' が有効である場合、スクリーン行の末尾に移
+ 			動します。
+-			{Vi にはありません}
+ 
+ 							*bar*
+ |			現在の行の [count] スクリーン桁位置に移動します。
+@@ -298,13 +294,11 @@ gk		or					*gk* *g<Up>*
+ g<Up>			[count] 表示行上に移動。|exclusive|。行が折り返されて
+ 			いる場合とオペレータコマンドとともに使われた場合は 'k'
+ 			と違う動作になります(行単位ではありませんから)。
+-			{Vi にはありません}
+ 
+ gj		or					*gj* *g<Down>*
+ g<Down>			[count] 表示行下に移動。|exclusive|。行が折り返されて
+ 			いる場合とオペレータコマンドとともに使われた場合は 'j'
+ 			と違う動作になります(行単位ではありませんから)。
+-			{Vi にはありません}
+ 
+ 							*-*
+ -  <minus>		[count] 行上の最初の非空白文字に移動します(行単位
+@@ -330,7 +324,6 @@ G			[count] 行目の最初の非空白文字に移動します(行単位
+ 							*<C-End>*
+ <C-End>			[count] 行目へ移動|inclusive|。カウントの前置がなければ
+ 			最後の行の最後の文字へ移動します。
+-			{Vi にはありません}
+ 
+ <C-Home>	or					*gg* *<C-Home>*
+ gg			[count] 行目の最初の非空白文字に移動します(行単位
+@@ -351,7 +344,6 @@ gg			[count] 行目の最初の非空白文字に移動します(行単位
+ 			のに次の式が使われます:
+ 			     ({count} * number-of-lines + 99) / 100
+ 			'startofline' オプションも参照してください。
+-			{Vi にはありません}
+ 
+ :[range]go[to] [count]					*:go* *:goto* *go*
+ [count]go		バッファ中の [count] バイト目に移動します。デフォルト
+@@ -361,7 +353,6 @@ gg			[count] 行目の最初の非空白文字に移動します(行単位
+ 			設定によります。
+ 			|line2byte()| 関数と 'statusline' の 'o' オプションも
+ 			参照。
+-			{Vi にはありません}
+ 			{|+byte_offset|機能なしでコンパイルされた場合は使えませ
+ 			ん}
+ 
+@@ -418,9 +409,7 @@ WORD は非空白文字の連続で構成され、ホワイトスペースで区
+ 
+ 特殊なケース: カーソルが非空白文字の上にあれば "cw" と "cW" は "ce" と "cE" の
+ ように扱われます。これは "cw" が単語を変更するコマンドだと解釈されるからで、単
+-語には続くホワイトスペースは含まれていないからです。{Vi: 後に空白文字が続く空
+-白文字上で "cw" を実行した場合最初の空白文字のみが変更されました; これはおそら
+-くバグです。なぜなら "dw" はすべての空白文字を削除するからです}
++語には続くホワイトスペースは含まれていないからです。
+ 
+ もう一つの特殊なケース: オペレータコマンドと移動コマンド "w" を組み合わせたと
+ きカーソルがその上を移動した最後の単語が行末にあった場合、その単語の終わりがオ
+@@ -521,7 +510,6 @@ WORD は非空白文字の連続で構成され、ホワイトスペースで区
+ す。ですので、"inner" コマンドは常に "a" コマンドより少なくテキストを選択する
+ ことになります。
+ 
+-これらのコマンドは {Vi にはありません}
+ これらのコマンドはコンパイル時に |+textobjects| 機能を無効にしていた場合には
+ 使えません。
+ 最後に使われた検索パターンによる操作をするには `gn` と `gN` を参照。
+@@ -782,7 +770,6 @@ m<  or  m>		マーク |'<| or |'>| をセットします。`gv` コマンドで
+ 						*'A* *'0* *`A* *`0*
+ '{A-Z0-9}  `{A-Z0-9}	マーク {A-Z0-9} を含むファイル・位置へジャンプ。
+ 			(別のファイルにある場合は移動コマンドにはなりません)。
+-			{Vi にはありません}
+ 
+ 						*g'* *g'a* *g`* *g`a*
+ g'{mark}  g`{mark}
+@@ -792,20 +779,18 @@ g'{mark}  g`{mark}
+ <			これはファイル内の最後の記憶している位置にジャンプする。
+ 			$VIMRUNTIME/vimrc_example.vim を参照。
+ 			|:keepjumps|も参照。
+-			{Vi にはありません}
+ 
+ 						*:marks*
+ :marks			現在のマークを全てリストします(移動コマンドではありま
+ 			せん)。
+ 			|'(|, |')|, |'{| と |'}| マークはリストされません。
+ 			1桁目は桁番号0となります。
+-			{Vi にはありません}
+ 
+ 						*E283*
+ :marks {arg}		{arg} で指定されるマークをリストします(移動コマンドで
+ 			はありません)。例: >
+ 				:marks aB
+-<			マーク 'a' と 'B' をリストします。{Vi にはありません}
++<			マーク 'a' と 'B' をリストします。
+ 
+ 							*:delm* *:delmarks*
+ :delm[arks] {marks}	指定されたマークを削除します。削除できるマークはA-Zと
+@@ -818,11 +803,9 @@ g'{mark}  g`{mark}
+ 			   :delmarks p-z      pからzまでのマークを削除する
+ 			   :delmarks ^.[]     マーク^ . [ ]を削除する
+ 			   :delmarks \"	      マーク"を削除する
+-<			{Vi にはありません}
+ 
+ :delm[arks]!		A-Z, 0-9を除くカレントバッファのすべてのマークを削除し
+ 			ます。
+-			{Vi にはありません}
+ 
+ マークはどのようにしても見えません。マークは単に覚えておかれるファイル中の位置
+ に過ぎません。マークと名前付きレジスタを混同しないようにしてください、まったく
+@@ -843,13 +826,12 @@ g'{mark}  g`{mark}
+ 位置に設定したり、'b' を Bottom 位置に設定したりします。小文字のマークはアン
+ ドゥとリドゥによって復元することができます。
+ 
+-大文字のマーク 'A から 'Z はファイル名を含んでいます。{Vi: 大文字のマークはあ
+-りません} ファイルからファイルに移動するのに使うことができます。大文字のマーク
+-をオペレータコマンドとともに使うにはマークは現在のファイルになければなりませ
+-ん。また大文字のマークの場合は行を挿入/削除したり一時的に他のファイルを編集し
+-たりしてもマークのある行番号は覚えておかれます。'viminfo' オプションの値が空で
+-なければ大文字のマークは .viminfo ファイルに保持されます。参照:
+-|viminfo-file-marks|
++大文字のマーク 'A から 'Z はファイル名を含んでいます。ファイルからファイルに移
++動するのに使うことができます。大文字のマークをオペレータコマンドとともに使うに
++はマークは現在のファイルになければなりません。また大文字のマークの場合は行を挿
++入/削除したり一時的に他のファイルを編集したりしてもマークのある行番号は覚えて
++おかれます。'viminfo' オプションの値が空でなければ大文字のマークは .viminfo
++ファイルに保持されます。参照: |viminfo-file-marks|
+ 
+ 番号マーク '0 から '9 まではこれらとはまったく異なります。直接セットすることは
+ できず、viminfo ファイル |viminfo-file| を使っている場合にのみ存在します。基本
+@@ -861,12 +843,10 @@ g'{mark}  g`{mark}
+ 							*'[* *`[*
+ '[  `[			直前に変更またはヤンクされたテキストの最初の文字
+ 			へ移動します。
+-			{Vi にはありません}
+ 
+ 							*']* *`]*
+ ']  `]			直前に変更またはヤンクされたテキストの最後の文字
+ 			へ移動します。
+-			{Vi にはありません}
+ 
+ なんらかのオペレータコマンドを実行した後は、カーソルはオペレータを施したテキス
+ トの初めに置かれます。プットコマンド("p" もしくは "P")の後は、カーソルは挿入さ
+@@ -884,14 +864,14 @@ Note: 矩形ビジュアルモードを使っているのでない限り、テ
+ '<  `<			現在のバッファで最後に選択されたビジュアルエリアの最初
+ 			の行('<)または最初の文字(`<)に移動します。ブロックモー
+ 			ドでは最初の行の最後の文字になる場合もあります(選択の
+-			開始位置による)。{Vi にはありません}
++			開始位置による)。
+ 
+ 							*'>* *`>*
+ '>  `>			現在のバッファで最後に選択されたビジュアルエリアの最後
+ 			の行('<)または最後の文字(`<)に移動します。ブロックモー
+ 			ドでは最後の行の最初の文字になる場合もあります(選択の
+ 			'selection' が適用され、位置はビジュアルエリアの直後に
+-			開始位置による)。{Vi にはありません}
++			開始位置による)。
+ 
+ 							*''* *``*
+ ''  ``			カーソルがジャンプする直前にいた、もしくは最後の "m'"
+@@ -908,14 +888,12 @@ Note: 矩形ビジュアルモードを使っているのでない限り、テ
+ 			ウィンドウごとに１つではなく、バッファに対して１つの位
+ 			置が記憶されます。バッファがあるウィンドウに表示されて
+ 			いる間はその位置は変わりません。
+-			{Vi にはありません}
+ 
+ 							*'^* *`^*
+ '^  `^			最後に挿入モードが終了したときのカーソル位置に移動しま
+ 			す。これは |gi| コマンドで使われます。
+ 			|:keepjumps| コマンドモディファイヤが使われたときは
+ 			セットされません。
+-			{Vi にはありません}
+ 
+ 							*'.* *`.*
+ '.  `.			最後に変更された場所に移動します。変更が始まった場所か
+@@ -927,40 +905,32 @@ Note: 矩形ビジュアルモードを使っているのでない限り、テ
+ 
+ 							*'(* *`(*
+ '(  `(			|(| コマンドのように、現在の文の最初に移動します。
+-			{Vi にはありません}
+ 
+ 							*')* *`)*
+ ')  `)			|)| コマンドのように、現在の文の最後に移動します。
+-			{Vi にはありません}
+ 
+ 							*'{* *`{*
+ '{  `{			|{| コマンドのように、現在の段落の最初に移動します。
+-			{Vi にはありません}
+ 
+ 							*'}* *`}*
+ '}  `}			|}| コマンドのように、現在の段落の最後に移動します。
+-			{Vi にはありません}
+ 
+ これらのコマンドは、それ自身はマークではなく、マークへジャンプします:
+ 
+ 							*]'*
+ ]'			カーソルがある行から [count] 個先の小文字のマークがあ
+ 			る行の最初の非空白文字へ移動します。
+-			{Vi にはありません}
+ 
+ 							*]`*
+ ]`			カーソル位置以降の [count] 個先の小文字のマークへ移動
+ 			します。
+-			{Vi にはありません}
+ 							*['*
+ ['			カーソルがある行から [count] 個前の小文字のマークがあ
+ 			る行の最初の非空白文字へ移動します。
+-			{Vi にはありません}
+ 
+ 							*[`*
+ [`			カーソル位置より [count] 個前の小文字のマークへ移動し
+ 			ます。
+-			{Vi にはありません}
+ 
+ 
+ :loc[kmarks] {command}					*:loc* *:lockmarks*
+@@ -1035,24 +1005,20 @@ Note: 矩形ビジュアルモードを使っているのでない限り、テ
+ 							*CTRL-O*
+ CTRL-O			ジャンプリストの中の [count] だけ古いカーソル位置に移
+ 			動します(移動コマンドではありません)。
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ <Tab>		or					*CTRL-I* *<Tab>*
+ CTRL-I			ジャンプリストの中の [count] だけ新しいカーソル位置に
+ 			移動します(移動コマンドではありません)。
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ 							*:ju* *:jumps*
+ :ju[mps]		ジャンプリストを表示させます(移動コマンドではありませ
+ 			ん)。
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ 							*:cle* *:clearjumps*
+ :cle[arjumps]		現在のウィンドウのジャンプリストを空にします。
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ 							*jumplist*
+@@ -1135,14 +1101,12 @@ g;			変更リスト中の [count] 個前の位置に移動します。
+ 			箇所へ移動します。
+ 			それ以上古い変更が無ければエラーメッセージが表示されま
+ 			す。(移動コマンドではありません)
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ 							*g,* *E663*
+ g,			変更リスト中の [count] 個後の位置に移動します。
+ 			|g;| の逆方向で、あとは同様です。
+ 			(移動コマンドではありません)
+-			{Vi にはありません}
+ 			{|+jumplist| 機能なしのときは使用できない}
+ 
+ count を使うと、可能な限り前／後にジャンプできます。つまり、"999g;" とすると
+@@ -1231,19 +1195,19 @@ count を使うと、可能な限り前／後にジャンプできます。つ
+ 
+ 						*[(*
+ [(			[count] 前のマッチするものがない '(' に移動します。
+-			|exclusive|。{Vi にはありません}
++			|exclusive|。
+ 
+ 						*[{*
+ [{			[count] 前のマッチするものがない '{' に移動します。
+-			|exclusive|。{Vi にはありません}
++			|exclusive|。
+ 
+ 						*])*
+ ])			[count] 次のマッチするものがない ')' に移動します。
+-			|exclusive|。{Vi にはありません}
++			|exclusive|。
+ 
+ 						*]}*
+ ]}			[count] 次のマッチするものがない '}' に移動します。
+-			|exclusive|。{Vi にはありません}
++			|exclusive|。
+ 
+ 上の4つのコマンドは現在のコードブロックの最初か最後に移動するのに使うことがで
+ きます。'(', ')', '{', '}' 上で "%" コマンドを実行するのに似ていますが、この場
+@@ -1256,25 +1220,21 @@ count を使うと、可能な限り前／後にジャンプできます。つ
+ 			ような構造の言語用)。メソッドの始まりの前でなければ、
+ 			クラスの始めか終わりに移動します。カーソルの後に '{' が
+ 			見つからなければエラーとなります。|exclusive|
+-			{Vi にはありません}
+ 						*]M*
+ ]M			[count]次のメソッドの終わりに移動します(Javaもしくは似
+ 			たような構造の言語用)。メソッドの終わりの前でなければ、
+ 			クラスの始めか終わりに移動します。カーソルの後に '}' が
+ 			見つからなけばエラーとなります。|exclusive|
+-			{Vi にはありません}
+ 						*[m*
+ [m			[count]前のメソッドの始めに移動します(Javaもしくは似た
+ 			ような構造の言語用)。メソッドの始まりの後でなければ、
+ 			クラスの始めか終わりに移動します。カーソルの前に '{' が
+ 			見つからなければエラーとなります。|exclusive|
+-			{Vi にはありません}
+ 						*[M*
+ [M			[count]前のメソッドの終わりに移動します(Javaもしくは似
+ 			たような構造の言語用)。メソッドの終わりの後でなければ、
+ 			クラスの始めか終わりに移動します。カーソルの前に '}' が
+ 			見つからなければエラーとなります。|exclusive|
+-			{Vi にはありません}
+ 
+ 上記の2つのコマンドはファイルがメソッドとともにクラスを含んでいることを前提と
+ しています。クラスの定義は '{' と '}' で囲まれていることです。クラスの中のそれ
+@@ -1296,11 +1256,11 @@ count を使うと、可能な限り前／後にジャンプできます。つ
+ 
+ 						*[#*
+ [#			[count] 前のマッチするものがない "#if" か "#else" に移
+-			動します。|exclusive|。{Vi にはありません}
++			動します。|exclusive|。
+ 
+ 						*]#*
+ ]#			[count] 次のマッチするものがない "#else" か "#endif" 
+-			に移動します。|exclusive|。{Vi にはありません}
++			に移動します。|exclusive|。
+ 
+ これらの2つのコマンドは #if/#else/#endif を含む C のプログラムで使います。これ
+ を使うと #if/#else/#endif の最初か最後に移動することができます(その場合現在の
+@@ -1308,11 +1268,9 @@ count を使うと、可能な限り前／後にジャンプできます。つ
+ 
+ 						*[star* *[/*
+ [*  or	[/		[count] 前の C コメントの始まり "/*" に移動します。
+-			{Vi にはありません}
+ 
+ 						*]star* *]/*
+ ]*  or	]/		[count] 次の C コメントの終わり "*/" に移動します。
+-			{Vi にはありません}
+ 
+ 
+ 						*H*
+@@ -1341,6 +1299,6 @@ L			スクリーンの最下行から [count] 行目(デフォルト: スク
+ <LeftMouse>		スクリーン上でマウスがクリックされた場所に移動します
+ 			|exclusive|。参照 |<LeftMouse>|。もしその位置がステー
+ 			タス行の中であると、そのウィンドウがアクティブなウィン
+-			ドウとなりカーソルは動きません。{Vi にはありません}
++			ドウとなりカーソルは動きません。
+ 
+  vim:tw=78:ts=8:noet:ft=help:norl:
+diff --git a/en/cmdline.txt b/en/cmdline.txt
+index e229532..0a4917a 100644
+--- a/en/cmdline.txt
++++ b/en/cmdline.txt
+@@ -1,4 +1,4 @@
+-*cmdline.txt*   For Vim version 8.1.  Last change: 2018 May 14
++*cmdline.txt*   For Vim version 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		  VIM REFERENCE MANUAL    by Bram Moolenaar
+@@ -27,7 +27,6 @@ Basic command line editing is explained in chapter 20 of the user manual
+ Normally characters are inserted in front of the cursor position.  You can
+ move around in the command-line with the left and right cursor keys.  With the
+ <Insert> key, you can toggle between inserting and overstriking characters.
+-{Vi: can only alter the last character in the line}
+ 
+ Note that if your keyboard does not have working cursor keys or any of the
+ other special keys, you can use ":cnoremap" to define another key for them.
+@@ -66,7 +65,6 @@ Notes:
+ - All searches are put in the search history, including the ones that come
+   from commands like "*" and "#".  But for a mapping, only the last search is
+   remembered (to avoid that long mappings trash the history).
+-{Vi: no history}
+ {not available when compiled without the |+cmdline_hist| feature}
+ 
+ There is an automatic completion of names on the command-line; see
+@@ -124,12 +122,12 @@ CTRL-U		Remove all characters between the cursor position and
+ 			:cnoremap <C-U> <C-E><C-U>
+ <
+ 						*c_<Insert>* *c_Insert*
+-<Insert>	Toggle between insert and overstrike.  {not in Vi}
++<Insert>	Toggle between insert and overstrike.
+ 
+ {char1} <BS> {char2}	or				*c_digraph*
+ CTRL-K {char1} {char2}					*c_CTRL-K*
+ 		enter digraph (see |digraphs|).  When {char1} is a special
+-		key, the code for that key is inserted in <> form.  {not in Vi}
++		key, the code for that key is inserted in <> form.
+ 
+ CTRL-R {0-9a-z"%#:-=.}					*c_CTRL-R* *c_<C-R>*
+ 		Insert the contents of a numbered or named register.  Between
+@@ -165,7 +163,7 @@ CTRL-R {0-9a-z"%#:-=.}					*c_CTRL-R* *c_<C-R>*
+ 				too.
+ 				When the result is a Float it's automatically
+ 				converted to a String.
+-		See |registers| about registers.  {not in Vi}
++		See |registers| about registers.
+ 		Implementation detail: When using the |expression| register
+ 		and invoking setcmdpos(), this sets the position before
+ 		inserting the resulting string.  Use CTRL-R CTRL-R to set the
+@@ -188,7 +186,6 @@ CTRL-R CTRL-L				*c_CTRL-R_CTRL-L* *c_<C-R>_<C-L>*
+ 		currently displayed match is used.  With CTRL-W the part of
+ 		the word that was already typed is not inserted again.
+ 
+-		{not in Vi}
+ 		CTRL-F and CTRL-P: {only when |+file_in_path| feature is
+ 		included}
+ 
+@@ -313,11 +310,9 @@ CTRL-^		Toggle the use of language |:lmap| mappings and/or Input
+ 		off, since you are expected to type a command.  After
+ 		switching it on with CTRL-^, the new state is not used again
+ 		for the next command or Search pattern.
+-		{not in Vi}
+ 
+ 						*c_CTRL-]*
+-CTRL-]		Trigger abbreviation, without inserting a character.  {not in
+-		Vi}
++CTRL-]		Trigger abbreviation, without inserting a character.
+ 
+ For Emacs-style editing on the command-line see |emacs-keys|.
+ 
+@@ -332,7 +327,6 @@ terminals)
+ 
+ 							*:his* *:history*
+ :his[tory]	Print the history of last entered commands.
+-		{not in Vi}
+ 		{not available when compiled without the |+cmdline_hist|
+ 		feature}
+ 
+@@ -344,7 +338,6 @@ terminals)
+ 		i[nput]	 or @		input line history
+ 		d[ebug]	 or >		debug command history
+ 		a[ll]			all of the above
+-		{not in Vi}
+ 
+ 		If the numbers {first} and/or {last} are given, the respective
+ 		range of entries from a history is listed.  These numbers can
+diff --git a/en/insert.txt b/en/insert.txt
+index 9d7e4ce..852ba68 100644
+--- a/en/insert.txt
++++ b/en/insert.txt
+@@ -1,4 +1,4 @@
+-*insert.txt*    For Vim version 8.1.  Last change: 2019 Apr 06
++*insert.txt*    For Vim version 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		  VIM REFERENCE MANUAL    by Bram Moolenaar
+@@ -59,23 +59,22 @@ CTRL-C		Quit insert mode, go back to Normal mode.  Do not check for
+ 		event.
+ 
+ 						*i_CTRL-@*
+-CTRL-@		Insert previously inserted text and stop insert.  {Vi: only
+-		when typed as first char, only up to 128 chars}
++CTRL-@		Insert previously inserted text and stop insert.
++
+ 						*i_CTRL-A*
+-CTRL-A		Insert previously inserted text.  {not in Vi}
++CTRL-A		Insert previously inserted text.
+ 
+ 						*i_CTRL-H* *i_<BS>* *i_BS*
+ <BS> or CTRL-H	Delete the character before the cursor (see |i_backspacing|
+ 		about joining lines).
+ 		See |:fixdel| if your <BS> key does not do what you want.
+-		{Vi: does not delete autoindents}
++
+ 						*i_<Del>* *i_DEL*
+ <Del>		Delete the character under the cursor.  If the cursor is at
+ 		the end of the line, and the 'backspace' option includes
+ 		"eol", delete the <EOL>; the next line is appended after the
+ 		current one.
+ 		See |:fixdel| if your <Del> key does not do what you want.
+-		{not in Vi}
+ 						*i_CTRL-W*
+ CTRL-W		Delete the word before the cursor (see |i_backspacing| about
+ 		joining lines).  See the section "word motions",
+@@ -102,10 +101,10 @@ CTRL-K {char1} [char2]
+ 		key, the code for that key is inserted in <> form.  For
+ 		example, the string "<S-Space>" can be entered by typing
+ 		<C-K><S-Space> (two keys).  Neither char is considered for
+-		mapping.  {not in Vi}
++		mapping.
+ 
+-CTRL-N		Find next keyword (see |i_CTRL-N|).  {not in Vi}
+-CTRL-P		Find previous keyword (see |i_CTRL-P|).  {not in Vi}
++CTRL-N		Find next keyword (see |i_CTRL-N|).
++CTRL-P		Find previous keyword (see |i_CTRL-P|).
+ 
+ CTRL-R {0-9a-z"%#*+:.-=}					*i_CTRL-R*
+ 		Insert the contents of a register.  Between typing CTRL-R and
+@@ -142,7 +141,7 @@ CTRL-R {0-9a-z"%#*+:.-=}					*i_CTRL-R*
+ 				converted to a String.
+ 				When append() or setline() is invoked the undo
+ 				sequence will be broken.
+-		See |registers| about registers.  {not in Vi}
++		See |registers| about registers.
+ 
+ CTRL-R CTRL-R {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-R*
+ 		Insert the contents of a register.  Works like using a single
+@@ -154,7 +153,7 @@ CTRL-R CTRL-R {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-R*
+ <		Options 'textwidth', 'formatoptions', etc. still apply.  If
+ 		you also want to avoid these, use CTRL-R CTRL-O, see below.
+ 		The '.' register (last inserted text) is still inserted as
+-		typed.  {not in Vi}
++		typed.
+ 
+ CTRL-R CTRL-O {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-O*
+ 		Insert the contents of a register literally and don't
+@@ -163,31 +162,30 @@ CTRL-R CTRL-O {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-O*
+ 		insert the text above the current line, like with `P`.
+ 		Does not replace characters!
+ 		The '.' register (last inserted text) is still inserted as
+-		typed.  {not in Vi}
++		typed.
+ 
+ CTRL-R CTRL-P {0-9a-z"%#*+/:.-=}			*i_CTRL-R_CTRL-P*
+ 		Insert the contents of a register literally and fix the
+ 		indent, like |[<MiddleMouse>|.
+ 		Does not replace characters!
+ 		The '.' register (last inserted text) is still inserted as
+-		typed.  {not in Vi}
++		typed.
+ 
+ 						*i_CTRL-T*
+ CTRL-T		Insert one shiftwidth of indent at the start of the current
+ 		line.  The indent is always rounded to a 'shiftwidth' (this is
+-		vi compatible).  {Vi: only when in indent}
++		vi compatible).
+ 						*i_CTRL-D*
+ CTRL-D		Delete one shiftwidth of indent at the start of the current
+ 		line.  The indent is always rounded to a 'shiftwidth' (this is
+-		vi compatible).  {Vi: CTRL-D works only when used after
+-		autoindent}
++		vi compatible).
+ 						*i_0_CTRL-D*
+-0 CTRL-D	Delete all indent in the current line.  {Vi: CTRL-D works
+-		only when used after autoindent}
++0 CTRL-D	Delete all indent in the current line.
++
+ 						*i_^_CTRL-D*
+ ^ CTRL-D	Delete all indent in the current line.  The indent is
+ 		restored in the next line.  This is useful when inserting a
+-		label.  {Vi: CTRL-D works only when used after autoindent}
++		label.
+ 
+ 						*i_CTRL-V*
+ CTRL-V		Insert next non-digit literally.  For special keys, the
+@@ -195,7 +193,7 @@ CTRL-V		Insert next non-digit literally.  For special keys, the
+ 		decimal, octal or hexadecimal value of a character
+ 		|i_CTRL-V_digit|.
+ 		The characters typed right after CTRL-V are not considered for
+-		mapping.  {Vi: no decimal byte entry}
++		mapping.
+ 		Note: When CTRL-V is mapped (e.g., to paste text) you can
+ 		often use CTRL-Q instead |i_CTRL-Q|.
+ 
+@@ -206,12 +204,12 @@ CTRL-Q		Same as CTRL-V.
+ 
+ CTRL-X		Enter CTRL-X mode.  This is a sub-mode where commands can
+ 		be given to complete words or scroll the window.  See
+-		|i_CTRL-X| and |ins-completion|. {not in Vi}
++		|i_CTRL-X| and |ins-completion|.
+ 
+ 						*i_CTRL-E*
+-CTRL-E		Insert the character which is below the cursor.  {not in Vi}
++CTRL-E		Insert the character which is below the cursor.
+ 						*i_CTRL-Y*
+-CTRL-Y		Insert the character which is above the cursor.  {not in Vi}
++CTRL-Y		Insert the character which is above the cursor.
+ 		Note that for CTRL-E and CTRL-Y 'textwidth' is not used, to be
+ 		able to copy characters from a long line.
+ 
+@@ -228,7 +226,6 @@ CTRL-_		Switch between languages, as follows:
+ 		is set.
+ 		Please refer to |rileft.txt| for more information about
+ 		right-to-left mode.
+-		{not in Vi}
+ 		Only if compiled with the |+rightleft| feature.
+ 
+ 						*i_CTRL-^*
+@@ -248,14 +245,12 @@ CTRL-^		Toggle the use of typing language characters.
+ 		The language mappings are normally used to type characters
+ 		that are different from what the keyboard produces.  The
+ 		'keymap' option can be used to install a whole number of them.
+-		{not in Vi}
+ 
+ 						*i_CTRL-]*
+-CTRL-]		Trigger abbreviation, without inserting a character.  {not in
+-		Vi}
++CTRL-]		Trigger abbreviation, without inserting a character.
+ 
+ 						*i_<Insert>*
+-<Insert>	Toggle between Insert and Replace mode.  {not in Vi}
++<Insert>	Toggle between Insert and Replace mode.
+ -----------------------------------------------------------------------
+ 
+ 						*i_backspacing*
+@@ -277,7 +272,6 @@ For backwards compatibility the values "0", "1" and "2" are also allowed, see
+ If the 'backspace' option does contain "eol" and the cursor is in column 1
+ when one of the three keys is used, the current line is joined with the
+ previous line.  This effectively deletes the <EOL> in front of the cursor.
+-{Vi: does not cross lines, does not delete past start position of insert}
+ 
+ 						*i_CTRL-V_digit*
+ With CTRL-V the decimal, octal or hexadecimal value of a character can be
+@@ -519,15 +513,14 @@ The 'expandtab' option is off by default.  Note that in Replace mode, a single
+ character is replaced with several spaces.  The result of this is that the
+ number of characters in the line increases.  Backspacing will delete one
+ space at a time.  The original character will be put back for only one space
+-that you backspace over (the last one).  {Vi does not have the 'expandtab'
+-option}
++that you backspace over (the last one).
+ 
+ 							*ins-smarttab*
+ When the 'smarttab' option is on, a <Tab> inserts 'shiftwidth' positions at
+ the beginning of a line and 'tabstop' positions in other places.  This means
+ that often spaces instead of a <Tab> character are inserted.  When 'smarttab'
+ is off, a <Tab> always inserts 'tabstop' positions, and 'shiftwidth' is only
+-used for ">>" and the like.  {not in Vi}
++used for ">>" and the like.
+ 
+ 							*ins-softtabstop*
+ When the 'softtabstop' option is non-zero, a <Tab> inserts 'softtabstop'
+@@ -567,14 +560,13 @@ If the 'expandtab' option is on, a <Tab> will replace one character with
+ several spaces.  The result of this is that the number of characters in the
+ line increases.  Backspacing will delete one space at a time.  The original
+ character will be put back for only one space that you backspace over (the
+-last one).  {Vi does not have the 'expandtab' option}
++last one).
+ 
+ ==============================================================================
+ 6. Virtual Replace mode		*vreplace-mode* *Virtual-Replace-mode*
+ 
+ Enter Virtual Replace mode with the "gR" command in normal mode.
+ {not available when compiled without the |+vreplace| feature}
+-{Vi does not have Virtual Replace mode}
+ 
+ Virtual Replace mode is similar to Replace mode, but instead of replacing
+ actual characters in the file, you are replacing screen real estate, so that
+@@ -1807,7 +1799,7 @@ I			Insert text before the first non-blank in the line
+ 			the last blank.
+ 
+ 							*gI*
+-gI			Insert text in column 1 [count] times.  {not in Vi}
++gI			Insert text in column 1 [count] times.
+ 
+ 							*gi*
+ gi			Insert text in the same position as where Insert mode
+@@ -1818,19 +1810,16 @@ gi			Insert text in the same position as where Insert mode
+ 			but NOT for inserted/deleted characters.
+ 			When the |:keepjumps| command modifier is used the |'^|
+ 			mark won't be changed.
+-			{not in Vi}
+ 
+ 							*o*
+ o			Begin a new line below the cursor and insert text,
+-			repeat [count] times.  {Vi: blank [count] screen
+-			lines}
++			repeat [count] times.
+ 			When the '#' flag is in 'cpoptions' the count is
+ 			ignored.
+ 
+ 							*O*
+ O			Begin a new line above the cursor and insert text,
+-			repeat [count] times.  {Vi: blank [count] screen
+-			lines}
++			repeat [count] times.
+ 			When the '#' flag is in 'cpoptions' the count is
+ 			ignored.
+ 
+@@ -1885,7 +1874,6 @@ NOTE: These commands cannot be used with |:global| or |:vglobal|.
+ 			script, the insertion only starts after the function
+ 			or script is finished.
+ 			This command does not work from |:normal|.
+-			{not in Vi}
+ 
+ 							*:stopi* *:stopinsert*
+ :stopi[nsert]		Stop Insert mode as soon as possible.  Works like
+@@ -1902,12 +1890,10 @@ NOTE: These commands cannot be used with |:global| or |:vglobal|.
+ 			Note that when using this command in a function or
+ 			script that the replacement will only start after
+ 			the function or script is finished.
+-			{not in Vi}
+ 
+ 							*:startgreplace*
+ :startg[replace][!]	Just like |:startreplace|, but use Virtual Replace
+ 			mode, like with |gR|.
+-			{not in Vi}
+ 
+ ==============================================================================
+ 10. Inserting a file					*inserting-file*
+diff --git a/en/motion.txt b/en/motion.txt
+index 7ebdee6..64b1fbf 100644
+--- a/en/motion.txt
++++ b/en/motion.txt
+@@ -1,4 +1,4 @@
+-*motion.txt*    For Vim version 8.1.  Last change: 2019 Mar 02
++*motion.txt*    For Vim version 8.1.  Last change: 2019 May 07
+ 
+ 
+ 		  VIM REFERENCE MANUAL    by Bram Moolenaar
+@@ -185,7 +185,7 @@ l		or					*l*
+ 			TEXT column (if possible).  Most other commands stay
+ 			in the same SCREEN column.  <Home> works like "1|",
+ 			which differs from "0" when the line starts with a
+-			<Tab>.  {not in Vi}
++			<Tab>.
+ 
+ 							*^*
+ ^			To the first non-blank character of the line.
+@@ -202,7 +202,7 @@ $  or <End>		To the end of the line.  When a count is given also go
+ 
+ 							*g_*
+ g_			To the last non-blank character of the line and
+-			[count - 1] lines downward |inclusive|. {not in Vi}
++			[count - 1] lines downward |inclusive|.
+ 
+ 							*g0* *g<Home>*
+ g0 or g<Home>		When lines wrap ('wrap' on): To the first character of
+@@ -211,7 +211,7 @@ g0 or g<Home>		When lines wrap ('wrap' on): To the first character of
+ 			When lines don't wrap ('wrap' off): To the leftmost
+ 			character of the current line that is on the screen.
+ 			Differs from "0" when the first character of the line
+-			is not on the screen.  {not in Vi}
++			is not on the screen.
+ 
+ 							*g^*
+ g^			When lines wrap ('wrap' on): To the first non-blank
+@@ -220,12 +220,11 @@ g^			When lines wrap ('wrap' on): To the first non-blank
+ 			When lines don't wrap ('wrap' off): To the leftmost
+ 			non-blank character of the current line that is on the
+ 			screen.  Differs from "^" when the first non-blank
+-			character of the line is not on the screen.  {not in
+-			Vi}
++			character of the line is not on the screen.
+ 
+ 							*gm*
+ gm			Like "g0", but half a screenwidth to the right (or as
+-			much as possible). {not in Vi}
++			much as possible).
+ 
+ 							*g$* *g<End>*
+ g$ or g<End>		When lines wrap ('wrap' on): To the last character of
+@@ -240,7 +239,6 @@ g$ or g<End>		When lines wrap ('wrap' on): To the last character of
+ 			instead of going to the end of the line.
+ 			When 'virtualedit' is enabled moves to the end of the
+ 			screen line.
+-			{not in Vi}
+ 
+ 							*bar*
+ |			To screen column [count] in the current line.
+@@ -296,12 +294,12 @@ CTRL-N			[count] lines downward |linewise|.
+ gk		or					*gk* *g<Up>*
+ g<Up>			[count] display lines upward.  |exclusive| motion.
+ 			Differs from 'k' when lines wrap, and when used with
+-			an operator, because it's not linewise.  {not in Vi}
++			an operator, because it's not linewise.
+ 
+ gj		or					*gj* *g<Down>*
+ g<Down>			[count] display lines downward.  |exclusive| motion.
+ 			Differs from 'j' when lines wrap, and when used with
+-			an operator, because it's not linewise.  {not in Vi}
++			an operator, because it's not linewise.
+ 
+ 							*-*
+ -  <minus>		[count] lines upward, on the first non-blank
+@@ -324,7 +322,7 @@ G			Goto line [count], default last line, on the first
+ 
+ 							*<C-End>*
+ <C-End>			Goto line [count], default last line, on the last
+-			character |inclusive|. {not in Vi}
++			character |inclusive|.
+ 
+ <C-Home>	or					*gg* *<C-Home>*
+ gg			Goto line [count], default first line, on the first
+@@ -342,7 +340,7 @@ gg			Goto line [count], default first line, on the first
+ 			non-blank in the line |linewise|.  To compute the new
+ 			line number this formula is used:
+ 			    ({count} * number-of-lines + 99) / 100
+-			See also 'startofline' option.  {not in Vi}
++			See also 'startofline' option.
+ 
+ :[range]go[to] [count]					*:go* *:goto* *go*
+ [count]go		Go to [count] byte in the buffer.  Default [count] is
+@@ -352,7 +350,6 @@ gg			Goto line [count], default first line, on the first
+ 			'fileformat' setting.
+ 			Also see the |line2byte()| function, and the 'o'
+ 			option in 'statusline'.
+-			{not in Vi}
+ 			{not available when compiled without the
+ 			|+byte_offset| feature}
+ 
+@@ -412,9 +409,7 @@ WORD before the fold.
+ 
+ Special case: "cw" and "cW" are treated like "ce" and "cE" if the cursor is
+ on a non-blank.  This is because "cw" is interpreted as change-word, and a
+-word does not include the following white space.  {Vi: "cw" when on a blank
+-followed by other blanks changes only the first blank; this is probably a
+-bug, because "dw" deletes all the blanks}
++word does not include the following white space.
+ 
+ Another special case: When using the "w" motion in combination with an
+ operator and the last word moved over is at the end of a line, the end of
+@@ -516,7 +511,6 @@ including white space, the commands starting with "i" select an "inner" object
+ without white space, or just the white space.  Thus the "inner" commands
+ always select less text than the "a" commands.
+ 
+-These commands are {not in Vi}.
+ These commands are not available when the |+textobjects| feature has been
+ disabled at compile time.
+ Also see `gn` and `gN`, operating on the last search pattern.
+@@ -780,7 +774,7 @@ m<  or  m>		Set the |'<| or |'>| mark.  Useful to change what the
+ 
+ 						*'A* *'0* *`A* *`0*
+ '{A-Z0-9}  `{A-Z0-9}	To the mark {A-Z0-9} in the file where it was set (not
+-			a motion command when in another file).  {not in Vi}
++			a motion command when in another file).
+ 
+ 						*g'* *g'a* *g`* *g`a*
+ g'{mark}  g`{mark}
+@@ -790,18 +784,17 @@ g'{mark}  g`{mark}
+ <			jumps to the last known position in a file.  See
+ 			$VIMRUNTIME/vimrc_example.vim.
+ 			Also see |:keepjumps|.
+-			{not in Vi}
+ 
+ 						*:marks*
+ :marks			List all the current marks (not a motion command).
+ 			The |'(|, |')|, |'{| and |'}| marks are not listed.
+ 			The first column has number zero.
+-			{not in Vi}
++
+ 						*E283*
+ :marks {arg}		List the marks that are mentioned in {arg} (not a
+ 			motion command).  For example: >
+ 				:marks aB
+-<			to list marks 'a' and 'B'.  {not in Vi}
++<			to list marks 'a' and 'B'.
+ 
+ 							*:delm* *:delmarks*
+ :delm[arks] {marks}	Delete the specified marks.  Marks that can be deleted
+@@ -815,11 +808,9 @@ g'{mark}  g`{mark}
+ 			   :delmarks p-z      deletes marks in the range p to z
+ 			   :delmarks ^.[]     deletes marks ^ . [ ]
+ 			   :delmarks \"	      deletes mark "
+-<			{not in Vi}
+ 
+ :delm[arks]!		Delete all marks for the current buffer, but not marks
+ 			A-Z or 0-9.
+-			{not in Vi}
+ 
+ A mark is not visible in any way.  It is just a position in the file that is
+ remembered.  Do not confuse marks with named registers, they are totally
+@@ -838,12 +829,12 @@ deletes the lines from the cursor position to mark 't'.  Hint: Use mark 't' for
+ Top, 'b' for Bottom, etc..  Lowercase marks are restored when using undo and
+ redo.
+ 
+-Uppercase marks 'A to 'Z include the file name.  {Vi: no uppercase marks} You
+-can use them to jump from file to file.  You can only use an uppercase mark
+-with an operator if the mark is in the current file.  The line number of the
+-mark remains correct, even if you insert/delete lines or edit another file for
+-a moment.  When the 'viminfo' option is not empty, uppercase marks are kept in
+-the .viminfo file.  See |viminfo-file-marks|.
++Uppercase marks 'A to 'Z include the file name.  You can use them to jump from
++file to file.  You can only use an uppercase mark with an operator if the mark
++is in the current file.  The line number of the mark remains correct, even if
++you insert/delete lines or edit another file for a moment.  When the 'viminfo'
++option is not empty, uppercase marks are kept in the .viminfo file.  See
++|viminfo-file-marks|.
+ 
+ Numbered marks '0 to '9 are quite different.  They can not be set directly.
+ They are only present when using a viminfo file |viminfo-file|.  Basically '0
+@@ -854,11 +845,11 @@ Numbered mark should be stored.  See |viminfo-file-marks|.
+ 
+ 							*'[* *`[*
+ '[  `[			To the first character of the previously changed
+-			or yanked text.  {not in Vi}
++			or yanked text.
+ 
+ 							*']* *`]*
+ ']  `]			To the last character of the previously changed or
+-			yanked text.  {not in Vi}
++			yanked text.
+ 
+ After executing an operator the Cursor is put at the beginning of the text
+ that was operated upon.  After a put command ("p" or "P") the cursor is
+@@ -876,7 +867,7 @@ was made yet in the current file.
+ '<  `<			To the first line or character of the last selected
+ 			Visual area in the current buffer.  For block mode it
+ 			may also be the last character in the first line (to
+-			be able to define the block).  {not in Vi}.
++			be able to define the block).
+ 
+ 							*'>* *`>*
+ '>  `>			To the last line or character of the last selected
+@@ -884,7 +875,7 @@ was made yet in the current file.
+ 			may also be the first character of the last line (to
+ 			be able to define the block).  Note that 'selection'
+ 			applies, the position may be just after the Visual
+-			area.  {not in Vi}.
++			area.
+ 
+ 							*''* *``*
+ ''  ``			To the position before the latest jump, or where the
+@@ -900,13 +891,12 @@ was made yet in the current file.
+ 			Only one position is remembered per buffer, not one
+ 			for each window.  As long as the buffer is visible in
+ 			a window the position won't be changed.
+-			{not in Vi}.
+ 
+ 							*'^* *`^*
+ '^  `^			To the position where the cursor was the last time
+ 			when Insert mode was stopped.  This is used by the
+ 			|gi| command.  Not set when the |:keepjumps| command
+-			modifier was used.  {not in Vi}
++			modifier was used.
+ 
+ 							*'.* *`.*
+ '.  `.			To the position where the last change was made.  The
+@@ -916,30 +906,29 @@ was made yet in the current file.
+ 			command changed.  For example when inserting a word,
+ 			the position will be on the last character.
+ 			To jump to older changes use |g;|.
+-			{not in Vi}
+ 
+ 							*'(* *`(*
+ '(  `(			To the start of the current sentence, like the |(|
+-			command.  {not in Vi}
++			command.
+ 
+ 							*')* *`)*
+ ')  `)			To the end of the current sentence, like the |)|
+-			command.  {not in Vi}
++			command.
+ 
+ 							*'{* *`{*
+ '{  `{			To the start of the current paragraph, like the |{|
+-			command.  {not in Vi}
++			command.
+ 
+ 							*'}* *`}*
+ '}  `}			To the end of the current paragraph, like the |}|
+-			command.  {not in Vi}
++			command.
+ 
+ These commands are not marks themselves, but jump to a mark:
+ 
+ 							*]'*
+ ]'			[count] times to next line with a lowercase mark below
+ 			the cursor, on the first non-blank character in the
+-			line. {not in Vi}
++			line.
+ 
+ 							*]`*
+ ]`			[count] times to lowercase mark after the cursor. {not
+@@ -948,11 +937,10 @@ These commands are not marks themselves, but jump to a mark:
+ 							*['*
+ ['			[count] times to previous line with a lowercase mark
+ 			before the cursor, on the first non-blank character in
+-			the line. {not in Vi}
++			the line.
+ 
+ 							*[`*
+ [`			[count] times to lowercase mark before the cursor.
+-			{not in Vi}
+ 
+ 
+ :loc[kmarks] {command}					*:loc* *:lockmarks*
+@@ -1030,23 +1018,19 @@ commands that start editing a new file.
+ 							*CTRL-O*
+ CTRL-O			Go to [count] Older cursor position in jump list
+ 			(not a motion command).
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ <Tab>		or					*CTRL-I* *<Tab>*
+ CTRL-I			Go to [count] newer cursor position in jump list
+ 			(not a motion command).
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ 							*:ju* *:jumps*
+ :ju[mps]		Print the jump list (not a motion command).
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ 							*:cle* *:clearjumps*
+ :cle[arjumps]		Clear the jump list of the current window.
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ 							*jumplist*
+@@ -1131,14 +1115,12 @@ g;			Go to [count] older position in change list.
+ 			positions go to the oldest change.
+ 			If there is no older change an error message is given.
+ 			(not a motion command)
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ 							*g,* *E663*
+ g,			Go to [count] newer cursor position in change list.
+ 			Just like |g;| but in the opposite direction.
+ 			(not a motion command)
+-			{not in Vi}
+ 			{not available without the |+jumplist| feature}
+ 
+ When using a count you jump as far back or forward as possible.  Thus you can
+@@ -1229,19 +1211,19 @@ remembered.
+ 
+ 						*[(*
+ [(			go to [count] previous unmatched '('.
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 						*[{*
+ [{			go to [count] previous unmatched '{'.
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 						*])*
+ ])			go to [count] next unmatched ')'.
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 						*]}*
+ ]}			go to [count] next unmatched '}'.
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ The above four commands can be used to go to the start or end of the current
+ code block.  It is like doing "%" on the '(', ')', '{' or '}' at the other
+@@ -1254,25 +1236,25 @@ bring you back to the switch statement.
+ 			similar structured language).  When not before the
+ 			start of a method, jump to the start or end of the
+ 			class.  When no '{' is found after the cursor, this is
+-			an error.  |exclusive| motion. {not in Vi}
++			an error.  |exclusive| motion.
+ 						*]M*
+ ]M			Go to [count] next end of a method (for Java or
+ 			similar structured language).  When not before the end
+ 			of a method, jump to the start or end of the class.
+ 			When no '}' is found after the cursor, this is an
+-			error. |exclusive| motion. {not in Vi}
++			error. |exclusive| motion.
+ 						*[m*
+ [m			Go to [count] previous start of a method (for Java or
+ 			similar structured language).  When not after the
+ 			start of a method, jump to the start or end of the
+ 			class.  When no '{' is found before the cursor this is
+-			an error. |exclusive| motion. {not in Vi}
++			an error. |exclusive| motion.
+ 						*[M*
+ [M			Go to [count] previous end of a method (for Java or
+ 			similar structured language).  When not after the
+ 			end of a method, jump to the start or end of the
+ 			class.  When no '}' is found before the cursor this is
+-			an error. |exclusive| motion. {not in Vi}
++			an error. |exclusive| motion.
+ 
+ The above two commands assume that the file contains a class with methods.
+ The class definition is surrounded in '{' and '}'.  Each method in the class
+@@ -1295,11 +1277,11 @@ Using "3[m" will jump to the start of the class.
+ 
+ 						*[#*
+ [#			go to [count] previous unmatched "#if" or "#else".
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 						*]#*
+ ]#			go to [count] next unmatched "#else" or "#endif".
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ These two commands work in C programs that contain #if/#else/#endif
+ constructs.  It brings you to the start or end of the #if/#else/#endif where
+@@ -1307,11 +1289,11 @@ the current line is included.  You can then use "%" to go to the matching line.
+ 
+ 						*[star* *[/*
+ [*  or  [/		go to [count] previous start of a C comment "/*".
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 						*]star* *]/*
+ ]*  or  ]/		go to [count] next end of a C comment "*/".
+-			|exclusive| motion. {not in Vi}
++			|exclusive| motion.
+ 
+ 
+ 						*H*
+@@ -1339,6 +1321,6 @@ L			To line [count] from bottom of window (default: Last
+ <LeftMouse>		Moves to the position on the screen where the mouse
+ 			click is |exclusive|.  See also |<LeftMouse>|.  If the
+ 			position is in a status line, that window is made the
+-			active window and the cursor is not moved.  {not in Vi}
++			active window and the cursor is not moved.
+ 
+  vim:tw=78:ts=8:noet:ft=help:norl:

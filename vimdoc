@@ -64,6 +64,8 @@ Vim ネタ
     別ウィンドウや別タブで top などを走らせていると、画面更新のタイミング？で incsearch が消える。
     
     https://github.com/vim/vim/issues/4126 のテストを追加する
+    
+    global コマンドの結果を Search でハイライトする
 
 プラグインネタ
     c-a/c-x で英単語をサポートするとか

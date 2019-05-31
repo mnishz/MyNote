@@ -66,6 +66,7 @@ Vim ネタ
     https://github.com/vim/vim/issues/4126 のテストを追加する
     
     global コマンドの結果を Search でハイライトする
+    colorscheme でタブを押して選択しているときに色をプレビューしていく
 
 プラグインネタ
     c-a/c-x で英単語をサポートするとか

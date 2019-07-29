@@ -150,3 +150,7 @@ mattnさんが導入しているプラグイン
 clangd
     clang
     compiledb
+
+if expand('%:e') !=? 'cpp'
+    return NONE
+endif

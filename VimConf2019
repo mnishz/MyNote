@@ -1,0 +1,42 @@
+# abstruct
+* testing overall
+    * how to run test
+    * how to check the result
+* advantage of testing
+    * deeper understanding of Vim script
+    * bug recreation and fix validation
+    * quick merging
+    * chance of contribution
+* sequence of testing
+    * scripttests
+    * runtime.vim
+    * example
+        * test_assert.vim ?
+        * test_popupwin.vim ?
+* backups
+    * coverage, codecov
+    * screen dump
+    * `make test` without " > /dev/null"
+
+This talk describes testing of Vim.
+We can easily run test of vim by typing `make test`. However, there might be few people who have run the test.
+In this session, I'd like to talk about how to run the test, how the test works and so on.
+Writing Vim's test will help you to understand Vim script or-
+If we understand how to write test, it will help us to deepen understanding of Vim script and-
+
+
+Vim 本体のテストについて話します。
+Vim のビルドをやったことがある人はいても、make test を実行したことのある人は少ないのではないでしょうか。
+そのような方を対象に、テスト実行の方法や、どのようにテストが実行されているのかをお話したいと思います。
+テストの書き方が分かれば、Vim script の知見が深まり、issue や patch を送るときの助けにもなります。
+
+
+* Vim でテストを実行する方法の説明
+* 本体へのパッチを書いても、テストの書き方が分からない人もいるかも。
+* バグフィックスの場合も、テストがあったほうが修正前後の関係が分かりやすい。
+
+
+# Pitch
+どうしてこの内容や自分が話すのにふさわしいのか
+
+* 今までテストに関する発表はなかった。

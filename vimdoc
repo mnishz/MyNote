@@ -154,3 +154,9 @@ clangd
 if expand('%:e') !=? 'cpp'
     return NONE
 endif
+
+バグっぽい動き
+    foofoofoofoo
+を、
+    :%s//bar\r/gc
+でyを押してすべて置き換えた後、uを押すと正しく元に戻らない。

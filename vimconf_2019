@@ -1,0 +1,22 @@
+# 内容抜粋 (予定)
+
+* テスト概要
+    * 実行の仕方
+    * 確認の仕方 (test.log)
+* テストを書くことの利点
+    * Vim script に詳しくなる
+    * bug の再現と fix の確認
+    * 早く merge してもらえる
+    * コントリビュートしやすい
+* テストの流れ
+    * scripttests
+    * unittests?
+    * runtime.vim
+    * 何か適当なテストの紹介
+        * test_assert.vim ?
+        * test_popupwin.vim ?
+* backups
+    * カバレッジ, codecov
+    * screen dump test
+    * "> /dev/null" を外して `make test` してみる
+    * どれくらいの頻度でテストの修正が入っているか

@@ -20,3 +20,4 @@
     * screen dump test
     * "> /dev/null" を外して `make test` してみる
     * どれくらいの頻度でテストの修正が入っているか
+    * Termdebug

@@ -1,0 +1,42 @@
+jira_redirect.js
+var pattern = "https://www.google.com/*CCB8*";
+
+function redirect(requestDetails) {
+    console.log("Redirecting: " + requestDetails.url);
+    return {
+        redirectUrl: "https://jira-hdd.wdc.com/browse/" + requestDetails.url.match(/CCB8-\d+/)
+    };
+}
+
+browser.webRequest.onBeforeRequest.addListener(
+    redirect,
+    {urls:[pattern]},
+    ["blocking"]
+);
+
+manifest.json
+{
+
+    "description": "Firefox extension to redirect CCB8 issues to Jira",
+    "manifest_version": 2,
+    "name": "jira_redirect",
+    "version": "1.0",
+
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "https://www.google.com/"
+    ],
+
+    "background": {
+        "scripts": ["jira_redirect.js"]
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "addon@example.com",
+            "strict_min_version": "42.0"
+        }
+    }
+
+}

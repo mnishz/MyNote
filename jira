@@ -1,23 +1,24 @@
 jira_redirect.js
-var pattern = "https://www.google.com/*CCB8*";
-
 function redirect(requestDetails) {
+    const pattern = /(ccb8|smr7)-\d+/i
+    if (!pattern.test(requestDetails.url)) return;
     console.log("Redirecting: " + requestDetails.url);
     return {
-        redirectUrl: "https://jira-hdd.wdc.com/browse/" + requestDetails.url.match(/CCB8-\d+/)
+        redirectUrl: "https://jira-hdd.wdc.com/browse/" + requestDetails.url.match(pattern)[0].toUpperCase()
     };
 }
 
+// chrome.webRequest.onBeforeRequest.addListener(
 browser.webRequest.onBeforeRequest.addListener(
     redirect,
-    {urls:[pattern]},
+    {urls:["https://www.google.com/search?*"]},
     ["blocking"]
 );
 
 manifest.json
 {
 
-    "description": "Firefox extension to redirect CCB8 issues to Jira",
+    "description": "Firefox/Chrome extension to redirect Jira issues ID to on-premises Jira server",
     "manifest_version": 2,
     "name": "jira_redirect",
     "version": "1.0",
@@ -34,7 +35,7 @@ manifest.json
 
     "browser_specific_settings": {
         "gecko": {
-            "id": "addon@example.com",
+            "id": "hogehoge@hugahuga",
             "strict_min_version": "42.0"
         }
     }
